@@ -1,3 +1,4 @@
+// Penjelasan file: helper autentikasi dan otorisasi berbasis cookie session.
 import bcrypt from "bcryptjs";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";

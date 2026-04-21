@@ -1,3 +1,4 @@
+// Penjelasan file: konfigurasi navigasi publik dan admin.
 import {
   BriefcaseBusiness,
   CalendarClock,

@@ -1,3 +1,4 @@
+// Penjelasan file: layout utama untuk seluruh halaman publik.
 import { PublicFooter, PublicHeader } from "@/features/public/components/site-shell";
 import { prisma } from "@/server/db/prisma";
 

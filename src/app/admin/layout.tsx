@@ -1,3 +1,4 @@
+// Penjelasan file: layout utama untuk seluruh area admin.
 import { AdminSidebar } from "@/features/admin/components/admin-sidebar";
 import { requireSession } from "@/server/auth/session";
 

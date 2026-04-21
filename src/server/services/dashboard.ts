@@ -1,3 +1,4 @@
+// Penjelasan file: service backend yang merangkum query dan logika modul.
 import { ClientStatus, PaymentStatus, ScheduleType, TransactionType } from "@prisma/client";
 import { prisma } from "@/server/db/prisma";
 

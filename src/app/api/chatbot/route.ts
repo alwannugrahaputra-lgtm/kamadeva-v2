@@ -1,3 +1,4 @@
+// Penjelasan file: endpoint API untuk chatbot pre-sales.
 import { NextResponse } from "next/server";
 import { getChatbotRecommendation } from "@/server/services/chatbot";
 

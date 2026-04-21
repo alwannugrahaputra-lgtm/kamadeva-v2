@@ -1,3 +1,4 @@
+// Penjelasan file: endpoint API untuk data calon klien.
 import { CommunicationChannel, LeadStatus, VenuePreference } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { prisma } from "@/server/db/prisma";

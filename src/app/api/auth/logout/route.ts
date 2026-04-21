@@ -1,3 +1,4 @@
+// Penjelasan file: endpoint API untuk proses logout admin.
 import { NextResponse } from "next/server";
 import { logout } from "@/server/auth/session";
 

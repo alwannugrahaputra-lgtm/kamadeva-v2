@@ -1,3 +1,4 @@
+// Penjelasan file: komponen UI reusable yang dipakai di banyak halaman.
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/shared/lib/utils";
 

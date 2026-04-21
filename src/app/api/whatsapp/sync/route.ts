@@ -1,3 +1,4 @@
+// Penjelasan file: endpoint API placeholder untuk sinkronisasi WhatsApp.
 import { CommunicationChannel, WhatsAppDirection } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { prisma } from "@/server/db/prisma";

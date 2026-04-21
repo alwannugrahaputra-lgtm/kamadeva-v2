@@ -1,3 +1,4 @@
+// Penjelasan file: utilitas bersama untuk format dan helper umum.
 import { format } from "date-fns";
 
 export function formatCurrency(amount: number | null | undefined) {

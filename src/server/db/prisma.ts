@@ -1,3 +1,4 @@
+// Penjelasan file: inisialisasi Prisma Client untuk akses database.
 import { PrismaClient } from "@prisma/client";
 
 const globalForPrisma = globalThis as unknown as {

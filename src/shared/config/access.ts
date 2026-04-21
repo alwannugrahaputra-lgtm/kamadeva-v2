@@ -1,3 +1,4 @@
+// Penjelasan file: konfigurasi role dan hak akses halaman maupun aksi.
 export type AppRole = "OWNER" | "ADMIN" | "STAFF";
 
 export const APP_ROLES: AppRole[] = ["OWNER", "ADMIN", "STAFF"];

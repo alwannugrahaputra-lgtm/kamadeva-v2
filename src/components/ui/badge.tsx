@@ -1,3 +1,4 @@
+// Penjelasan file: komponen UI reusable yang dipakai di banyak halaman.
 import { cn } from "@/shared/lib/utils";
 
 export function Badge({

@@ -1,3 +1,4 @@
+// Penjelasan file: service backend yang merangkum query dan logika modul.
 export const whatsappArchitecture = {
   status: "placeholder",
   description:

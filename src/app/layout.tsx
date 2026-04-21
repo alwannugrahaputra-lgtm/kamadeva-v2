@@ -1,3 +1,4 @@
+// Penjelasan file: layout global aplikasi.
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "../styles/globals.css";

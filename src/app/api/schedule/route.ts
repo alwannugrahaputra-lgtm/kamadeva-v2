@@ -1,3 +1,4 @@
+// Penjelasan file: endpoint API untuk jadwal acara dan operasional.
 import { ScheduleStatus, ScheduleType } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { prisma } from "@/server/db/prisma";

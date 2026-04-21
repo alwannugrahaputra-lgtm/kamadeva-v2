@@ -1,3 +1,4 @@
+// Penjelasan file: endpoint API untuk proses login admin.
 import { NextResponse } from "next/server";
 import { loginWithCredentials } from "@/server/auth/session";
 

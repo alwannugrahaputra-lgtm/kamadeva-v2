@@ -1,3 +1,4 @@
+// Penjelasan file: komponen UI reusable yang dipakai di banyak halaman.
 import type { LucideIcon } from "lucide-react";
 import { formatCurrency } from "@/shared/lib/format";
 

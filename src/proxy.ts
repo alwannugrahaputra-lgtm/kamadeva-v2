@@ -1,3 +1,4 @@
+// Penjelasan file: middleware atau proxy untuk proteksi route aplikasi.
 import { type NextRequest, NextResponse } from "next/server";
 
 const protectedPrefixes = ["/admin"];

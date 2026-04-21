@@ -1,3 +1,4 @@
+// Penjelasan file: endpoint API untuk data vendor.
 import { VendorCategory } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { prisma } from "@/server/db/prisma";
