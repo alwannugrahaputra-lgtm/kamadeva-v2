@@ -88,8 +88,8 @@ export async function requireSession() {
 
 export async function requireRole(allowedRoles: AppRole[]) {
   const session = await requireSession();
-  // Keep unauthorized users inside the admin shell instead of exposing
-  // a generic framework error page.
+  // Pengguna yang tidak berhak diarahkan kembali ke area admin utama
+  // agar tidak berakhir di halaman error framework yang membingungkan.
   if (!allowedRoles.includes(session.role)) {
     redirect("/admin");
   }

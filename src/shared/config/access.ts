@@ -3,7 +3,7 @@ export type AppRole = "OWNER" | "ADMIN" | "STAFF";
 
 export const APP_ROLES: AppRole[] = ["OWNER", "ADMIN", "STAFF"];
 
-// Route access decides whether a role may open a page at all.
+// Akses route menentukan apakah sebuah role boleh membuka halaman tertentu.
 export const ADMIN_ROUTE_ACCESS = {
   dashboard: ["OWNER", "ADMIN", "STAFF"],
   clients: ["OWNER", "ADMIN", "STAFF"],
@@ -18,8 +18,8 @@ export const ADMIN_ROUTE_ACCESS = {
   reports: ["OWNER", "ADMIN"],
 } satisfies Record<string, AppRole[]>;
 
-// Action access is intentionally stricter than route access:
-// a role may be allowed to open a page but still be view-only inside it.
+// Akses aksi sengaja dibuat lebih ketat daripada akses halaman:
+// sebuah role bisa saja boleh membuka halaman, tetapi tetap hanya mode lihat.
 export const ADMIN_ACTION_ACCESS = {
   clientsManage: ["OWNER", "ADMIN"],
   leadsManage: ["OWNER", "ADMIN"],

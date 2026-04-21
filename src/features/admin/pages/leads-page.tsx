@@ -62,8 +62,8 @@ export default async function LeadsPage({
         },
       });
 
-      // Preserve every related record so the calon klien timeline
-      // becomes the new client timeline without losing history.
+      // Pindahkan seluruh relasi agar histori calon klien tetap ikut
+      // menjadi histori klien baru tanpa kehilangan jejak data.
       await tx.communicationLog.updateMany({
         where: { leadId: lead.id },
         data: {

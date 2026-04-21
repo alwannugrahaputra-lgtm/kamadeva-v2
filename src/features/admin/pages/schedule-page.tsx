@@ -38,7 +38,7 @@ export default async function SchedulePage({
     const startDate = new Date(String(formData.get("startDate")));
     const endDate = new Date(String(formData.get("endDate")));
 
-    // Prevent two agenda items from occupying the same time slot.
+    // Cegah dua agenda memakai slot waktu yang sama.
     const conflict = await prisma.scheduleItem.findFirst({
       where: {
         AND: [
