@@ -1,5 +1,7 @@
 "use client";
 
+
+// Penjelasan file: komponen publik untuk tampilan website dan interaksi calon klien.
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/shared/lib/format";

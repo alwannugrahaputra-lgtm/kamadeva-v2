@@ -1,5 +1,7 @@
 "use client";
 
+
+// Penjelasan file: komponen admin untuk tampilan dan interaksi modul internal.
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { formatCurrency } from "@/shared/lib/format";
 

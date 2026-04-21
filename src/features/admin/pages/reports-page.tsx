@@ -1,3 +1,4 @@
+// Penjelasan file: halaman admin untuk modul operasional terkait.
 import { CashflowChart } from "@/features/admin/components/cashflow-chart";
 import { LeadFunnelChart } from "@/features/admin/components/lead-funnel-chart";
 import { AdminTopbar } from "@/features/admin/components/admin-topbar";

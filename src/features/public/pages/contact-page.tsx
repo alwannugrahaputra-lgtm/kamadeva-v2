@@ -1,3 +1,4 @@
+// Penjelasan file: halaman publik untuk website Kamadeva.
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { LeadForm } from "@/features/public/components/lead-form";

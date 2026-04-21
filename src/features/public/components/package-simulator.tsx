@@ -1,5 +1,7 @@
 "use client";
 
+
+// Penjelasan file: komponen publik untuk tampilan website dan interaksi calon klien.
 import { useMemo, useState } from "react";
 import { formatCurrency } from "@/shared/lib/format";
 

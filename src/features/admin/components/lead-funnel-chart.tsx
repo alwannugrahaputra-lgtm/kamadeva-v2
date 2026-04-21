@@ -1,5 +1,7 @@
 "use client";
 
+
+// Penjelasan file: komponen admin untuk tampilan dan interaksi modul internal.
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 export function LeadFunnelChart({

@@ -1,3 +1,4 @@
+// Penjelasan file: halaman publik untuk website Kamadeva.
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, HeartHandshake, Sparkles, Users } from "lucide-react";

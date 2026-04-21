@@ -1,3 +1,4 @@
+// Penjelasan file: halaman admin untuk modul operasional terkait.
 import { AdminTopbar } from "@/features/admin/components/admin-topbar";
 import { ADMIN_ROUTE_ACCESS } from "@/shared/config/access";
 import { requireRole } from "@/server/auth/session";

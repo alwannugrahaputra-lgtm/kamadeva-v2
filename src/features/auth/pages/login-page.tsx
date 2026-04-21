@@ -1,3 +1,4 @@
+// Penjelasan file: halaman autentikasi untuk pengguna internal.
 import Link from "next/link";
 
 export default async function LoginPage({

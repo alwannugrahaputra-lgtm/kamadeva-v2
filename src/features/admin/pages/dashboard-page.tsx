@@ -1,3 +1,4 @@
+// Penjelasan file: halaman admin untuk modul operasional terkait.
 import { CalendarClock, CircleDollarSign, MessageSquareHeart, UserRoundSearch, Users, WalletCards } from "lucide-react";
 import { AdminTopbar } from "@/features/admin/components/admin-topbar";
 import { ADMIN_ROUTE_ACCESS } from "@/shared/config/access";

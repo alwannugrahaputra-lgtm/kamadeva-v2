@@ -1,3 +1,4 @@
+// Penjelasan file: halaman publik untuk website Kamadeva.
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { prisma } from "@/server/db/prisma";

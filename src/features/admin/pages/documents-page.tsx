@@ -1,3 +1,4 @@
+// Penjelasan file: halaman admin untuk modul operasional terkait.
 import { DocumentStatus, DocumentType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

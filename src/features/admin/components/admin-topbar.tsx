@@ -1,3 +1,4 @@
+// Penjelasan file: komponen admin untuk tampilan dan interaksi modul internal.
 import { LogOut } from "lucide-react";
 import { logout } from "@/server/auth/session";
 import { SubmitButton } from "@/components/ui/submit-button";

@@ -1,3 +1,4 @@
+// Penjelasan file: halaman admin untuk modul operasional terkait.
 import Link from "next/link";
 import { VenuePreference } from "@prisma/client";
 import { revalidatePath } from "next/cache";

@@ -1,3 +1,4 @@
+// Penjelasan file: halaman admin untuk modul operasional terkait.
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { AdminTopbar } from "@/features/admin/components/admin-topbar";
@@ -203,7 +204,7 @@ export default async function ContentPage() {
               <div key={item.id} className="rounded-[22px] bg-white p-4">
                 <p className="font-semibold text-[var(--brand-deep)]">{item.title}</p>
                 <p className="text-sm text-[var(--muted)]">
-                  {item.category} · {formatDate(item.eventDate)}
+                  {item.category} Â· {formatDate(item.eventDate)}
                 </p>
                 <p className="mt-2 text-sm leading-7 text-[var(--muted)]">{item.description}</p>
               </div>

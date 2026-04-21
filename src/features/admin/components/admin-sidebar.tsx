@@ -1,5 +1,7 @@
 "use client";
 
+
+// Penjelasan file: komponen admin untuk tampilan dan interaksi modul internal.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { type AppRole } from "@/shared/config/access";
