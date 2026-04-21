@@ -1,3 +1,4 @@
+// Penjelasan file: definisi schema database utama Kamadeva WO Management System.
 generator client {
   provider = "prisma-client-js"
 }

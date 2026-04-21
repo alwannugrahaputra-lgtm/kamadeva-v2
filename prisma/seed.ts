@@ -1,3 +1,4 @@
+// Penjelasan file: seed data awal untuk kebutuhan demo dan pengembangan lokal.
 import bcrypt from "bcryptjs";
 import {
   ClientStatus,
