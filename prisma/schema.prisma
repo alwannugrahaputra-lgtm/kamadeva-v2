@@ -1,0 +1,339 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  STAFF
+}
+
+enum ClientStatus {
+  LEAD
+  PROSPEK
+  DEAL
+  BERJALAN
+  SELESAI
+}
+
+enum LeadStatus {
+  LEAD
+  PROSPEK
+  DEAL
+  CLOSED
+}
+
+enum VenuePreference {
+  RUMAH
+  GEDUNG
+  FLEKSIBEL
+}
+
+enum VendorCategory {
+  DEKORASI
+  CATERING
+  MAKEUP
+  FOTOGRAFI
+  HIBURAN
+  BUSANA
+  DOKUMENTASI
+  SOUVENIR
+  MC
+  LAINNYA
+}
+
+enum ScheduleType {
+  ACARA
+  MEETING
+  PEMBAYARAN
+  FOLLOW_UP
+  VENDOR
+  DEADLINE
+}
+
+enum ScheduleStatus {
+  TERJADWAL
+  PROSES
+  SELESAI
+  TERTUNDA
+}
+
+enum PaymentType {
+  DP
+  PELUNASAN
+  PEMASUKAN
+  PENGELUARAN
+}
+
+enum PaymentStatus {
+  BELUM_BAYAR
+  DP
+  LUNAS
+  DITERIMA
+  KELUAR
+}
+
+enum DocumentType {
+  KONTRAK
+  KUITANSI
+  BRIEF
+  IDENTITAS
+  LAINNYA
+}
+
+enum DocumentStatus {
+  DRAFT
+  DIKIRIM
+  DISETUJUI
+  ARSIP
+}
+
+enum CommunicationChannel {
+  WHATSAPP
+  TELEPON
+  EMAIL
+  WEBSITE
+  MEETING
+}
+
+enum TransactionType {
+  CASH_IN
+  CASH_OUT
+}
+
+enum WhatsAppDirection {
+  INBOUND
+  OUTBOUND
+}
+
+model User {
+  id           String             @id @default(cuid())
+  name         String
+  email        String             @unique
+  passwordHash String
+  phone        String?
+  role         UserRole           @default(STAFF)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  logs         CommunicationLog[]
+}
+
+model SiteSetting {
+  id             String   @id @default(cuid())
+  businessName   String
+  tagline        String
+  about          String
+  whatsappNumber String
+  email          String
+  address        String
+  instagram      String?
+  tiktok         String?
+  heroTitle      String
+  heroSubtitle   String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model WeddingPackage {
+  id               String           @id @default(cuid())
+  name             String
+  slug             String           @unique
+  price            Int
+  description      String
+  facilities       String
+  includedVendors  String
+  addOns           String
+  recommendedVenue VenuePreference?
+  minGuests        Int?
+  maxGuests        Int?
+  isFeatured       Boolean          @default(false)
+  isActive         Boolean          @default(true)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  clients          Client[]
+}
+
+model Client {
+  id                 String               @id @default(cuid())
+  fullName           String
+  phone              String
+  email              String?
+  address            String?
+  eventDate          DateTime?
+  eventLocation      String?
+  eventType          String
+  budget             Int?
+  selectedPackageId  String?
+  preferredVenue     VenuePreference?
+  guestCount         Int?
+  status             ClientStatus         @default(LEAD)
+  specialNotes       String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  selectedPackage    WeddingPackage?      @relation(fields: [selectedPackageId], references: [id])
+  interactions       CommunicationLog[]
+  documents          Document[]
+  payments           Payment[]
+  schedules          ScheduleItem[]
+  transactions       FinanceTransaction[]
+  whatsappActivities WhatsAppSync[]
+}
+
+model Lead {
+  id                 String             @id @default(cuid())
+  name               String
+  whatsapp           String
+  eventDate          DateTime?
+  location           String
+  budget             Int?
+  preferredVenue     VenuePreference?
+  guestCount         Int?
+  neededServices     String
+  notes              String?
+  status             LeadStatus         @default(LEAD)
+  source             String             @default("Website")
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  interactions       CommunicationLog[]
+  documents          Document[]
+  schedules          ScheduleItem[]
+  whatsappActivities WhatsAppSync[]
+}
+
+model Vendor {
+  id               String         @id @default(cuid())
+  name             String
+  category         VendorCategory
+  phone            String
+  email            String?
+  address          String?
+  priceStart       Int?
+  rating           Float?         @default(4)
+  collaborationLog String?
+  performanceNotes String?
+  isActive         Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  schedules        ScheduleItem[]
+}
+
+model ScheduleItem {
+  id        String         @id @default(cuid())
+  title     String
+  type      ScheduleType
+  startDate DateTime
+  endDate   DateTime
+  location  String?
+  notes     String?
+  status    ScheduleStatus @default(TERJADWAL)
+  clientId  String?
+  leadId    String?
+  vendorId  String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  client    Client?        @relation(fields: [clientId], references: [id])
+  lead      Lead?          @relation(fields: [leadId], references: [id])
+  vendor    Vendor?        @relation(fields: [vendorId], references: [id])
+}
+
+model CommunicationLog {
+  id          String               @id @default(cuid())
+  channel     CommunicationChannel
+  summary     String
+  logDate     DateTime             @default(now())
+  clientId    String?
+  leadId      String?
+  handledById String?
+  client      Client?              @relation(fields: [clientId], references: [id])
+  lead        Lead?                @relation(fields: [leadId], references: [id])
+  handledBy   User?                @relation(fields: [handledById], references: [id])
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  receiptNumber String        @unique
+  type          PaymentType
+  status        PaymentStatus
+  description   String
+  amount        Int
+  dueDate       DateTime?
+  paidAt        DateTime?
+  clientId      String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  client        Client        @relation(fields: [clientId], references: [id])
+}
+
+model FinanceTransaction {
+  id              String          @id @default(cuid())
+  type            TransactionType
+  title           String
+  category        String
+  amount          Int
+  transactionDate DateTime
+  clientId        String?
+  createdAt       DateTime        @default(now())
+  client          Client?         @relation(fields: [clientId], references: [id])
+}
+
+model Document {
+  id        String         @id @default(cuid())
+  title     String
+  type      DocumentType
+  status    DocumentStatus
+  fileUrl   String
+  clientId  String?
+  leadId    String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  client    Client?        @relation(fields: [clientId], references: [id])
+  lead      Lead?          @relation(fields: [leadId], references: [id])
+}
+
+model PortfolioItem {
+  id          String   @id @default(cuid())
+  title       String
+  category    String
+  description String
+  eventDate   DateTime
+  location    String
+  imageUrl    String
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  clientName String
+  eventType  String
+  quote      String
+  rating     Int
+  isFeatured Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model FaqItem {
+  id        String   @id @default(cuid())
+  category  String
+  question  String
+  answer    String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model WhatsAppSync {
+  id             String            @id @default(cuid())
+  externalChatId String?
+  direction      WhatsAppDirection
+  preview        String
+  syncedAt       DateTime          @default(now())
+  clientId       String?
+  leadId         String?
+  client         Client?           @relation(fields: [clientId], references: [id])
+  lead           Lead?             @relation(fields: [leadId], references: [id])
+}
