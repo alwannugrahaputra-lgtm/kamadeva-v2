@@ -2,6 +2,8 @@
 import { PublicFooter, PublicHeader } from "@/features/public/components/site-shell";
 import { prisma } from "@/server/db/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function PublicLayout({
   children,
 }: Readonly<{
