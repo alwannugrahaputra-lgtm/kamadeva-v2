@@ -8,7 +8,7 @@ Aplikasi full-stack untuk **Kamadeva Wedding Organizer** dengan fokus pada digit
 - React 19
 - Tailwind CSS 4
 - Prisma ORM
-- MySQL / MariaDB lokal via XAMPP
+- MySQL / MariaDB
 - Auth cookie session sederhana
 - Recharts
 
@@ -34,7 +34,7 @@ Aplikasi full-stack untuk **Kamadeva Wedding Organizer** dengan fokus pada digit
 - `admin@kamadeva.test` / `kamadeva123`
 - `staff@kamadeva.test` / `kamadeva123`
 
-## Cara Menjalankan
+## Cara Menjalankan Lokal
 
 1. Pastikan `Apache` dan `MySQL` XAMPP aktif.
 2. Install dependensi:
@@ -67,7 +67,7 @@ npm run db:seed
 npm run dev
 ```
 
-## Konfigurasi Database
+## Konfigurasi Database Lokal
 
 File env aktif ada di [\.env](</C:/Users/Windows/Downloads/kamadeva v2/.env>).
 
@@ -83,6 +83,35 @@ Database yang dipakai:
 - port: `3306`
 - user: `root`
 - password: kosong
+
+## Deploy Vercel
+
+Untuk production, aplikasi **tidak** memakai `127.0.0.1`. Vercel harus memakai database MySQL cloud melalui `Environment Variables`.
+
+Environment yang dibutuhkan di Vercel:
+
+```env
+DATABASE_URL="mysql://USER:PASSWORD@HOST:PORT/NAMA_DATABASE"
+AUTH_SECRET="secret-random-yang-panjang"
+```
+
+Contoh provider yang bisa dipakai:
+
+- Aiven MySQL
+- Railway MySQL
+- PlanetScale
+- TiDB Cloud
+- Clever Cloud MySQL
+
+Catatan:
+
+- `DATABASE_URL` production **tidak disimpan di repo** demi keamanan
+- homepage dan beberapa halaman publik membaca data dari database, jadi jika env production kosong atau salah, halaman dapat error `500`
+- script build project ini sudah menjalankan `prisma generate && next build` agar Prisma Client tersedia saat deploy
+
+## Konfigurasi Aiven / Cloud
+
+Jika memakai Aiven MySQL atau provider cloud lain, gunakan env terpisah dari lokal. Contoh ada di [\.env.example](</C:/Users/Windows/Downloads/kamadeva v2/.env.example>).
 
 ## Akses phpMyAdmin
 
