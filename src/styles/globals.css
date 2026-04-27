@@ -291,12 +291,13 @@ select.input-base option {
 }
 
 .admin-sidebar.is-collapsed {
-  width: 108px;
-  min-width: 108px;
+  width: 92px;
+  min-width: 92px;
 }
 
 .admin-sidebar.is-collapsed .admin-sidebar-copy,
-.admin-sidebar.is-collapsed .admin-sidebar-label {
+.admin-sidebar.is-collapsed .admin-sidebar-label,
+.admin-sidebar.is-collapsed .admin-sidebar-toggle-label {
   display: none;
 }
 
@@ -307,6 +308,11 @@ select.input-base option {
 .admin-sidebar.is-collapsed nav a {
   justify-content: center;
   padding-inline: 12px;
+}
+
+.admin-sidebar.is-collapsed .admin-sidebar-toggle button {
+  width: 44px;
+  padding-inline: 0;
 }
 
 .admin-main {
@@ -335,18 +341,28 @@ select.input-base option {
   }
 
   .admin-sidebar.is-collapsed {
-    width: 100%;
-    min-width: 0;
+    width: 92px;
+    min-width: 92px;
   }
 
   .admin-sidebar.is-collapsed .admin-sidebar-copy,
-  .admin-sidebar.is-collapsed .admin-sidebar-label {
-    display: initial;
+  .admin-sidebar.is-collapsed .admin-sidebar-label,
+  .admin-sidebar.is-collapsed .admin-sidebar-toggle-label {
+    display: none;
   }
 
   .admin-sidebar.is-collapsed nav a {
-    justify-content: flex-start;
-    padding-inline: 16px;
+    justify-content: center;
+    padding-inline: 12px;
+  }
+
+  .admin-sidebar.is-collapsed .admin-sidebar-toggle button {
+    width: 44px;
+    padding-inline: 0;
+  }
+
+  .admin-sidebar.is-collapsed .admin-sidebar-brand {
+    padding: 16px;
   }
 
   .admin-main {

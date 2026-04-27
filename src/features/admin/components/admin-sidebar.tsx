@@ -26,15 +26,18 @@ export function AdminSidebar({
   return (
     <aside className={`admin-sidebar ${collapsed ? "is-collapsed" : ""}`}>
       <div className="paper-panel ornament-ring min-h-full rounded-[34px] p-5 lg:p-6">
-        <div className="mb-4 flex items-center justify-between gap-3">
+        <div className="admin-sidebar-toggle mb-4 flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => setCollapsed((value) => !value)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-[18px] border border-[rgba(212,175,55,0.14)] bg-[rgba(255,255,255,0.03)] text-[var(--brand-deep)] transition hover:border-[rgba(212,175,55,0.28)] hover:bg-[rgba(212,175,55,0.08)]"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-[18px] border border-[rgba(212,175,55,0.14)] bg-[rgba(255,255,255,0.03)] px-4 text-[var(--brand-deep)] transition hover:border-[rgba(212,175,55,0.28)] hover:bg-[rgba(212,175,55,0.08)]"
             aria-label={collapsed ? "Tampilkan sidebar" : "Sembunyikan sidebar"}
             title={collapsed ? "Tampilkan sidebar" : "Sembunyikan sidebar"}
           >
             {collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+            <span className="admin-sidebar-toggle-label text-sm font-medium">
+              {collapsed ? "Tampilkan menu" : "Sembunyikan menu"}
+            </span>
           </button>
         </div>
 
