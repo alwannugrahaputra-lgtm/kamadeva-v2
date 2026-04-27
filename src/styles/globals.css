@@ -272,7 +272,7 @@ select.input-base option {
 
 .admin-grid {
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr);
   height: 100vh;
   overflow: hidden;
   align-items: stretch;
