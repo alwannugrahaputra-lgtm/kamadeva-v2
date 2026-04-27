@@ -1,9 +1,11 @@
 // Penjelasan file: fallback aman untuk konten publik saat database cloud lambat atau tidak tersedia.
 import type { PortfolioItem, SiteSetting, WeddingPackage } from "@prisma/client";
 import { VenuePreference } from "@prisma/client";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/server/db/prisma";
 
-const PUBLIC_DB_TIMEOUT_MS = 3500;
+const PUBLIC_DB_TIMEOUT_MS = 1200;
+const PUBLIC_CACHE_REVALIDATE_SECONDS = 300;
 
 const defaultSiteSetting: SiteSetting = {
   id: "fallback-site-setting",
@@ -123,31 +125,52 @@ async function withPublicFallback<T>(
   return Promise.race([guardedQuery, timeout]);
 }
 
+const getCachedPublicSiteSetting = unstable_cache(
+  async () =>
+    withPublicFallback(
+      "site-setting",
+      prisma.siteSetting.findFirst().then((site) => site ?? defaultSiteSetting),
+      defaultSiteSetting,
+    ),
+  ["public-site-setting"],
+  { revalidate: PUBLIC_CACHE_REVALIDATE_SECONDS },
+);
+
+const getCachedPublicWeddingPackages = unstable_cache(
+  async () =>
+    withPublicFallback(
+      "wedding-packages",
+      prisma.weddingPackage.findMany({
+        where: { isActive: true },
+        orderBy: { price: "asc" },
+      }),
+      defaultPackages,
+    ),
+  ["public-wedding-packages"],
+  { revalidate: PUBLIC_CACHE_REVALIDATE_SECONDS },
+);
+
+const getCachedPublicPortfolioItems = unstable_cache(
+  async () =>
+    withPublicFallback(
+      "portfolio-items",
+      prisma.portfolioItem.findMany({
+        orderBy: { eventDate: "desc" },
+      }),
+      defaultPortfolioItems,
+    ),
+  ["public-portfolio-items"],
+  { revalidate: PUBLIC_CACHE_REVALIDATE_SECONDS },
+);
+
 export async function getPublicSiteSetting() {
-  return withPublicFallback(
-    "site-setting",
-    prisma.siteSetting.findFirst().then((site) => site ?? defaultSiteSetting),
-    defaultSiteSetting,
-  );
+  return getCachedPublicSiteSetting();
 }
 
 export async function getPublicWeddingPackages() {
-  return withPublicFallback(
-    "wedding-packages",
-    prisma.weddingPackage.findMany({
-      where: { isActive: true },
-      orderBy: { price: "asc" },
-    }),
-    defaultPackages,
-  );
+  return getCachedPublicWeddingPackages();
 }
 
 export async function getPublicPortfolioItems() {
-  return withPublicFallback(
-    "portfolio-items",
-    prisma.portfolioItem.findMany({
-      orderBy: { eventDate: "desc" },
-    }),
-    defaultPortfolioItems,
-  );
+  return getCachedPublicPortfolioItems();
 }

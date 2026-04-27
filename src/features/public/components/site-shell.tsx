@@ -18,7 +18,7 @@ export function PublicHeader({ whatsappNumber }: { whatsappNumber: string }) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[rgba(5,5,5,0.82)] backdrop-blur-2xl">
+      <header className="sticky top-0 z-40 border-b border-[var(--line)] bg-[rgba(5,5,5,0.9)] backdrop-blur-md">
         <div className="container-shell flex items-center justify-between gap-6 py-4 lg:py-5">
           <Link href="/" className="flex min-w-0 items-center gap-3 lg:gap-4">
             <div className="overflow-hidden rounded-[24px] border border-[var(--line)] bg-[#0b0b0b] shadow-[0_18px_38px_rgba(0,0,0,0.34)]">

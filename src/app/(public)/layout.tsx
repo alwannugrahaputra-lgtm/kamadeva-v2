@@ -2,7 +2,7 @@
 import { PublicFooter, PublicHeader } from "@/features/public/components/site-shell";
 import { getPublicSiteSetting } from "@/server/services/public-content";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export default async function PublicLayout({
   children,
