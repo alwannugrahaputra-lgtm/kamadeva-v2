@@ -289,8 +289,12 @@ select.input-base option {
 .admin-main {
   height: 100vh;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   padding-right: 6px;
+}
+
+.admin-main > * {
+  min-width: 0;
 }
 
 @media (max-width: 1024px) {

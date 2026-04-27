@@ -108,9 +108,15 @@ export default async function ClientsPage({
         description="Data klien dan detail acara."
       />
 
-      <div className={canManageClients ? "grid gap-6 xl:grid-cols-[0.9fr_1.1fr]" : "grid gap-6"}>
+      <div
+        className={
+          canManageClients
+            ? "grid gap-6 2xl:grid-cols-[minmax(320px,0.88fr)_minmax(0,1.12fr)]"
+            : "grid gap-6"
+        }
+      >
         {canManageClients ? (
-          <div className="glass-card rounded-[30px] p-6">
+          <div className="glass-card min-w-0 rounded-[30px] p-6">
             <div className="mb-5 flex items-center justify-between">
               <div>
                 <p className="text-sm uppercase tracking-[0.2em] text-[var(--muted)]">
@@ -177,7 +183,7 @@ export default async function ClientsPage({
           </div>
         ) : null}
 
-        <div className="glass-card rounded-[30px] p-6">
+        <div className="glass-card min-w-0 rounded-[30px] p-6">
           <form className="mb-5 flex flex-col gap-3 md:flex-row" action="/admin/clients">
             <input name="q" defaultValue={query ?? ""} placeholder="Cari nama, HP, lokasi, atau jenis acara" className="input-base flex-1" />
             <button type="submit" className="rounded-full bg-[var(--brand-deep)] px-5 py-3 text-sm font-semibold text-white">
