@@ -1,6 +1,6 @@
 // Penjelasan file: layout utama untuk seluruh halaman publik.
 import { PublicFooter, PublicHeader } from "@/features/public/components/site-shell";
-import { prisma } from "@/server/db/prisma";
+import { getPublicSiteSetting } from "@/server/services/public-content";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +9,7 @@ export default async function PublicLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const site = await prisma.siteSetting.findFirst();
+  const site = await getPublicSiteSetting();
 
   return (
     <>

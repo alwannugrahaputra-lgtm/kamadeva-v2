@@ -5,10 +5,10 @@ import { ArrowRight, CheckCircle2, HeartHandshake, Sparkles, Users } from "lucid
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LeadForm } from "@/features/public/components/lead-form";
-import { prisma } from "@/server/db/prisma";
+import { getPublicSiteSetting } from "@/server/services/public-content";
 
 export default async function HomePage() {
-  const site = await prisma.siteSetting.findFirst();
+  const site = await getPublicSiteSetting();
 
   const values = [
     {

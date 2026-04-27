@@ -1,13 +1,11 @@
 // Penjelasan file: halaman publik untuk website Kamadeva.
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { prisma } from "@/server/db/prisma";
+import { getPublicPortfolioItems } from "@/server/services/public-content";
 import { formatDate } from "@/shared/lib/format";
 
 export default async function PortfolioPage() {
-  const items = await prisma.portfolioItem.findMany({
-    orderBy: { eventDate: "desc" },
-  });
+  const items = await getPublicPortfolioItems();
 
   return (
     <section className="container-shell public-page-shell">
@@ -43,6 +41,12 @@ export default async function PortfolioPage() {
           </article>
         ))}
       </div>
+      {items.length === 0 ? (
+        <div className="paper-panel mt-8 rounded-[28px] p-6 text-sm text-[var(--muted)]">
+          Portfolio sedang diperbarui. Hubungi tim Kamadeva untuk melihat referensi
+          acara terbaru yang sesuai dengan kebutuhan Anda.
+        </div>
+      ) : null}
     </section>
   );
 }

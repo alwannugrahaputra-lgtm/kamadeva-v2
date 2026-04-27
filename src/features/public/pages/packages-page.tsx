@@ -2,14 +2,11 @@
 import { Badge } from "@/components/ui/badge";
 import { LeadForm } from "@/features/public/components/lead-form";
 import { PackageSimulator } from "@/features/public/components/package-simulator";
-import { prisma } from "@/server/db/prisma";
+import { getPublicWeddingPackages } from "@/server/services/public-content";
 import { formatCurrency } from "@/shared/lib/format";
 
 export default async function PaketPage() {
-  const packages = await prisma.weddingPackage.findMany({
-    where: { isActive: true },
-    orderBy: { price: "asc" },
-  });
+  const packages = await getPublicWeddingPackages();
 
   return (
     <section className="container-shell public-page-shell">
@@ -50,6 +47,12 @@ export default async function PaketPage() {
           </article>
         ))}
       </div>
+      {packages.length === 0 ? (
+        <div className="paper-panel mt-8 rounded-[28px] p-6 text-sm text-[var(--muted)]">
+          Paket sedang disiapkan. Silakan lanjut konsultasi agar tim Kamadeva dapat
+          merekomendasikan pilihan yang paling sesuai.
+        </div>
+      ) : null}
 
       <div className="mt-14 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <div>

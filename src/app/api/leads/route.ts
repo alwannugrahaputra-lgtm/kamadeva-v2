@@ -17,39 +17,51 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  try {
+    const body = await request.json();
 
-  const lead = await prisma.lead.create({
-    data: {
-      name: body.name,
-      whatsapp: body.whatsapp,
-      eventDate: body.eventDate ? new Date(body.eventDate) : null,
-      location: body.location,
-      budget: body.budget ? Number(body.budget) : null,
-      preferredVenue: (body.preferredVenue || null) as VenuePreference | null,
-      guestCount: body.guestCount ? Number(body.guestCount) : null,
-      neededServices: body.neededServices,
-      notes: body.notes || null,
-      status: (body.status || LeadStatus.LEAD) as LeadStatus,
-      source: body.source || "Website",
-    },
-  });
+    const lead = await prisma.lead.create({
+      data: {
+        name: body.name,
+        whatsapp: body.whatsapp,
+        eventDate: body.eventDate ? new Date(body.eventDate) : null,
+        location: body.location,
+        budget: body.budget ? Number(body.budget) : null,
+        preferredVenue: (body.preferredVenue || null) as VenuePreference | null,
+        guestCount: body.guestCount ? Number(body.guestCount) : null,
+        neededServices: body.neededServices,
+        notes: body.notes || null,
+        status: (body.status || LeadStatus.LEAD) as LeadStatus,
+        source: body.source || "Website",
+      },
+    });
 
-  await prisma.communicationLog.create({
-    data: {
-      channel: CommunicationChannel.WEBSITE,
-      summary: `Calon klien baru masuk dari form konsultasi website: ${lead.neededServices}`,
-      leadId: lead.id,
-    },
-  });
+    await prisma.communicationLog.create({
+      data: {
+        channel: CommunicationChannel.WEBSITE,
+        summary: `Calon klien baru masuk dari form konsultasi website: ${lead.neededServices}`,
+        leadId: lead.id,
+      },
+    });
 
-  return NextResponse.json(
-    {
-      ...lead,
-      message: "Terima kasih. Konsultasi Anda sudah masuk ke sistem Kamadeva dan akan segera ditindaklanjuti admin.",
-    },
-    { status: 201 },
-  );
+    return NextResponse.json(
+      {
+        ...lead,
+        message:
+          "Terima kasih. Konsultasi Anda sudah masuk ke sistem Kamadeva dan akan segera ditindaklanjuti admin.",
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    console.error("[api/leads] failed to save lead", error);
+    return NextResponse.json(
+      {
+        message:
+          "Form konsultasi belum bisa diproses saat ini. Silakan coba lagi beberapa saat atau hubungi WhatsApp Kamadeva.",
+      },
+      { status: 503 },
+    );
+  }
 }
 
 export async function PUT(request: Request) {

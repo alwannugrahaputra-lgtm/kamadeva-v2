@@ -1,9 +1,9 @@
 // Penjelasan file: halaman publik untuk website Kamadeva.
 import { Badge } from "@/components/ui/badge";
-import { prisma } from "@/server/db/prisma";
+import { getPublicSiteSetting } from "@/server/services/public-content";
 
 export default async function TentangKamiPage() {
-  const site = await prisma.siteSetting.findFirst();
+  const site = await getPublicSiteSetting();
 
   const values = [
     "Pendampingan yang hangat sejak konsultasi awal hingga hari acara.",

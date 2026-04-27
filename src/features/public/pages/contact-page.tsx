@@ -2,14 +2,14 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { LeadForm } from "@/features/public/components/lead-form";
-import { prisma } from "@/server/db/prisma";
+import { getPublicSiteSetting } from "@/server/services/public-content";
 import {
   normalizeSocialHandle,
   normalizeWhatsAppNumber,
 } from "@/shared/lib/utils";
 
 export default async function KontakPage() {
-  const site = await prisma.siteSetting.findFirst();
+  const site = await getPublicSiteSetting();
   const whatsappLink = site?.whatsappNumber
     ? `https://wa.me/${normalizeWhatsAppNumber(site.whatsappNumber)}`
     : null;
