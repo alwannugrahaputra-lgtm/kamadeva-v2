@@ -84,16 +84,6 @@ export function AdminSidebar({
             );
           })}
         </nav>
-
-        <div className="mt-6 rounded-[24px] border border-[rgba(212,175,55,0.14)] bg-[rgba(255,255,255,0.03)] p-4">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--muted)]">
-            Focus hari ini
-          </p>
-          <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
-            Area admin dirapikan supaya owner, admin, dan staff lebih cepat melihat
-            agenda aktif, follow-up, dan progres pekerjaan yang benar-benar bergerak.
-          </p>
-        </div>
       </div>
     </aside>
   );

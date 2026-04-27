@@ -145,15 +145,19 @@ textarea {
 }
 
 .table-shell {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   border-radius: 26px;
   border: 1px solid var(--line);
   background: rgba(12, 12, 12, 0.9);
   box-shadow: 0 22px 46px rgba(0, 0, 0, 0.24);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.42) rgba(255, 255, 255, 0.04);
 }
 
 .table-shell table {
   width: 100%;
+  min-width: 760px;
   border-collapse: collapse;
 }
 
@@ -163,6 +167,7 @@ textarea {
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
+  white-space: nowrap;
 }
 
 .table-shell th {
@@ -170,6 +175,30 @@ textarea {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+.table-shell td p,
+.table-shell td span,
+.table-shell td div,
+.table-shell td form {
+  white-space: normal;
+}
+
+.table-shell td:last-child {
+  min-width: 132px;
+}
+
+.table-shell::-webkit-scrollbar {
+  height: 10px;
+}
+
+.table-shell::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.table-shell::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.34);
 }
 
 .table-shell tr:last-child td {
