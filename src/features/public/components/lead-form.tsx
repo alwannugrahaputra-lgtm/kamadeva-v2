@@ -40,16 +40,14 @@ export function LeadForm({ compact = false }: LeadFormProps) {
     <form
       id="lead-form"
       action={handleSubmit}
-      className="glass-card rounded-[28px] p-6"
+      className="paper-panel ornament-ring rounded-[32px] p-6 lg:p-7"
     >
       <div className="mb-5">
-        <p className="text-sm uppercase tracking-[0.2em] text-[var(--muted)]">
-          Konsultasi Awal
-        </p>
-        <h3 className="mt-2 section-title text-3xl font-semibold text-[var(--brand-deep)]">
+        <p className="eyebrow">Konsultasi Awal</p>
+        <h3 className="mt-4 section-title text-4xl font-semibold text-[var(--brand-deep)]">
           Ceritakan rencana pernikahan Anda
         </h3>
-        <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
+        <p className="section-copy mt-3 text-sm">
           Isi kebutuhan dasar acara Anda, lalu tim Kamadeva akan menghubungi untuk
           konsultasi lanjutan.
         </p>
@@ -75,12 +73,14 @@ export function LeadForm({ compact = false }: LeadFormProps) {
         className="input-base mt-4 min-h-28"
       />
       <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <p className="text-sm text-[var(--muted)]">Tim kami akan menghubungi Anda secepatnya.</p>
+        <p className="text-sm text-[var(--muted)]">
+          Tim kami akan menghubungi Anda secepatnya.
+        </p>
         <Button type="submit" disabled={loading}>
           {loading ? "Mengirim..." : "Kirim Konsultasi"}
         </Button>
       </div>
-      {message ? <p className="mt-4 text-sm text-[var(--brand-deep)]">{message}</p> : null}
+      {message ? <p className="mt-4 text-sm text-[var(--accent)]">{message}</p> : null}
     </form>
   );
 }

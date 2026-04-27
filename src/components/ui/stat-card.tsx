@@ -16,19 +16,21 @@ export function StatCard({
   currency?: boolean;
 }) {
   return (
-    <div className="glass-card rounded-[28px] p-6">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="paper-panel ornament-ring rounded-[30px] p-6">
+      <div className="mb-5 flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm text-[var(--muted)]">{title}</p>
-          <p className="mt-2 text-3xl font-semibold text-[var(--brand-deep)]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--muted)]">
+            {title}
+          </p>
+          <p className="section-title mt-4 text-4xl font-semibold leading-none text-[var(--brand-deep)]">
             {currency ? formatCurrency(value) : value}
           </p>
         </div>
-        <div className="rounded-2xl bg-[var(--soft)] p-3 text-[var(--brand)]">
+        <div className="rounded-[20px] border border-[rgba(212,175,55,0.16)] bg-[rgba(212,175,55,0.08)] p-3 text-[var(--brand)] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
           <Icon size={22} />
         </div>
       </div>
-      <p className="text-sm text-[var(--muted)]">{description}</p>
+      <p className="text-sm leading-7 text-[var(--muted)]">{description}</p>
     </div>
   );
 }

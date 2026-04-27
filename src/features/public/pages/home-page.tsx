@@ -1,7 +1,7 @@
 // Penjelasan file: halaman publik untuk website Kamadeva.
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, HeartHandshake, Sparkles, Users } from "lucide-react";
+import { ArrowRight, CheckCircle2, HeartHandshake, Sparkles, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LeadForm } from "@/features/public/components/lead-form";
@@ -31,63 +31,83 @@ export default async function HomePage() {
     },
   ];
 
-  return (
-    <div className="pb-16">
-      <section className="container-shell grid gap-10 py-14 lg:grid-cols-[1fr_1.02fr] lg:items-center lg:py-20">
-        <div>
-          <Badge tone="brand">
-            {site?.tagline ?? "Perfectly Planned, Beautifully Executed"}
-          </Badge>
-          <h1 className="section-title mt-6 max-w-4xl text-6xl font-semibold leading-none text-[var(--brand-deep)] md:text-7xl">
-            {site?.heroTitle ?? "Perencanaan wedding yang rapi, hangat, dan berkelas"}
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-9 text-[var(--muted)]">
-            {site?.heroSubtitle ??
-              "Dari konsultasi awal hingga hari acara, setiap detail dikelola dalam satu alur yang tenang dan terukur."}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/tentang-kami">
-              <Button>
-                Tentang Kamadeva
-                <ArrowRight size={16} />
-              </Button>
-            </Link>
-            <Link href="/kontak">
-              <Button variant="secondary">Hubungi Kami</Button>
-            </Link>
-          </div>
-        </div>
+  const highlights = [
+    "Konsultasi yang mudah diikuti oleh pasangan dan keluarga.",
+    "Timeline kerja rapi dari persiapan awal sampai hari acara.",
+    "Koordinasi vendor dan eksekusi yang tetap terasa elegan.",
+  ];
 
-        <div className="grid gap-5 md:grid-cols-[1.08fr_0.92fr]">
-          <div className="overflow-hidden rounded-[36px] border border-[var(--line)] bg-white shadow-[0_24px_60px_rgba(93,51,38,0.12)]">
-            <Image
-              src="/portfolio/hadiyan-annisa.jpg"
-              alt="Wedding organizer Kamadeva"
-              width={1200}
-              height={1500}
-              className="h-full min-h-[520px] w-full object-cover"
-            />
-          </div>
-          <div className="grid gap-5">
-            <div className="glass-card rounded-[32px] p-6">
-              <p className="text-sm uppercase tracking-[0.22em] text-[var(--muted)]">
-                Wedding Planner & Organizer
+  return (
+    <div className="pb-18">
+      <section className="container-shell public-page-shell">
+        <div className="paper-panel public-hero-shell ornament-ring">
+          <div className="hero-grid lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+            <div className="relative z-10">
+              <Badge tone="brand">
+                {site?.tagline ?? "Perfectly Planned, Beautifully Executed"}
+              </Badge>
+              <h1 className="section-title mt-7 max-w-4xl text-6xl font-semibold leading-[0.94] text-[var(--brand-deep)] md:text-7xl xl:text-[5.3rem]">
+                {site?.heroTitle ??
+                  "Perencanaan wedding yang rapi, hangat, dan berkelas"}
+              </h1>
+              <p className="section-copy mt-7 max-w-2xl text-lg">
+                {site?.heroSubtitle ??
+                  "Dari konsultasi awal hingga hari acara, setiap detail dikelola dalam satu alur yang tenang dan terukur."}
               </p>
-              <h2 className="section-title mt-4 text-4xl font-semibold text-[var(--brand-deep)]">
-                Momen yang terasa hangat, terarah, dan berkesan.
-              </h2>
-              <p className="mt-4 text-sm leading-8 text-[var(--muted)]">
-                {site?.about ?? "Wedding Planner & Organizer"}
-              </p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link href="/kontak">
+                  <Button>
+                    Jadwalkan Konsultasi
+                    <ArrowRight size={16} />
+                  </Button>
+                </Link>
+                <Link href="/paket">
+                  <Button variant="secondary">Lihat Paket</Button>
+                </Link>
+              </div>
+              <div className="mt-9 grid gap-3 max-w-xl">
+                {highlights.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-3 rounded-full border border-[rgba(212,175,55,0.18)] bg-[rgba(255,255,255,0.03)] px-4 py-3 text-sm text-[var(--muted)] shadow-[0_12px_28px_rgba(0,0,0,0.18)]"
+                  >
+                    <CheckCircle2 className="mt-0.5 shrink-0 text-[var(--moss)]" size={18} />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="overflow-hidden rounded-[32px] border border-[var(--line)] bg-white">
-              <Image
-                src="/portfolio/wanda-kalam.jpg"
-                alt="Momen wedding Kamadeva"
-                width={900}
-                height={1200}
-                className="h-[240px] w-full object-cover"
-              />
+
+            <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="overflow-hidden rounded-[34px] border border-[var(--line)] bg-[#111111] shadow-[0_30px_70px_rgba(0,0,0,0.28)]">
+                <Image
+                  src="/portfolio/hadiyan-annisa.jpg"
+                  alt="Wedding organizer Kamadeva"
+                  width={1200}
+                  height={1500}
+                  className="h-full min-h-[520px] w-full object-cover"
+                />
+              </div>
+              <div className="grid gap-5">
+                <div className="paper-panel ornament-ring rounded-[30px] p-6">
+                  <p className="eyebrow">Wedding Planner & Organizer</p>
+                  <h2 className="section-title mt-5 text-4xl font-semibold leading-tight text-[var(--brand-deep)]">
+                    Momen yang terasa hangat di depan tamu, tenang di belakang layar.
+                  </h2>
+                  <p className="section-copy mt-4 text-sm">
+                    {site?.about ?? "Wedding Planner & Organizer"}
+                  </p>
+                </div>
+                <div className="overflow-hidden rounded-[30px] border border-[var(--line)] bg-[#111111] shadow-[0_24px_56px_rgba(0,0,0,0.22)]">
+                  <Image
+                    src="/portfolio/wanda-kalam.jpg"
+                    alt="Momen wedding Kamadeva"
+                    width={900}
+                    height={1200}
+                    className="h-[240px] w-full object-cover"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -95,45 +115,56 @@ export default async function HomePage() {
 
       <section className="container-shell py-10">
         <div className="mb-8 max-w-3xl">
-          <Badge>Layanan Kamadeva</Badge>
-          <h2 className="section-title mt-4 text-5xl font-semibold text-[var(--brand-deep)]">
-            Fokus pada pengalaman yang nyaman untuk pasangan dan keluarga
+          <p className="eyebrow">Pendekatan Kamadeva</p>
+          <h2 className="section-title mt-5 text-5xl font-semibold text-[var(--brand-deep)]">
+            Pengalaman wedding yang dirancang lebih emosional, rapi, dan mudah diikuti
           </h2>
-          <p className="mt-4 text-sm leading-8 text-[var(--muted)]">
-            Beranda ini kami buat sebagai pengantar singkat tentang identitas dan
-            pendekatan Kamadeva. Detail paket, portfolio, dan informasi lainnya bisa
-            dilihat di halaman masing-masing.
+          <p className="section-copy mt-4 text-sm">
+            Kami membawa ritme kerja yang jelas, tanpa membuat pasangan atau keluarga
+            merasa terseret ke proses yang ribet. Detail paket, portfolio, dan
+            informasi lanjutan tetap tersedia di halaman masing-masing.
           </p>
         </div>
         <div className="grid gap-5 lg:grid-cols-3">
           {values.map((item) => (
-            <article key={item.title} className="glass-card rounded-[28px] p-6">
-              <div className="mb-5 inline-flex rounded-2xl bg-[var(--soft)] p-3 text-[var(--brand)]">
+            <article key={item.title} className="paper-panel ornament-ring rounded-[30px] p-7">
+              <div className="mb-6 inline-flex rounded-[20px] border border-[rgba(212,175,55,0.16)] bg-[rgba(212,175,55,0.08)] p-3 text-[var(--brand)]">
                 <item.icon size={20} />
               </div>
-              <h3 className="text-xl font-semibold text-[var(--brand-deep)]">
+              <h3 className="section-title text-3xl font-semibold leading-tight text-[var(--brand-deep)]">
                 {item.title}
               </h3>
-              <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
-                {item.description}
-              </p>
+              <p className="section-copy mt-4 text-sm">{item.description}</p>
             </article>
           ))}
         </div>
       </section>
 
       <section id="konsultasi" className="container-shell py-12">
-        <div className="mb-8 max-w-3xl">
-          <Badge tone="brand">Konsultasi</Badge>
-          <h2 className="section-title mt-4 text-5xl font-semibold text-[var(--brand-deep)]">
-            Ceritakan rencana acara Anda kepada tim Kamadeva
-          </h2>
-          <p className="mt-4 text-sm leading-8 text-[var(--muted)]">
-            Setelah mengisi form singkat ini, tim kami akan menghubungi Anda untuk
-            konsultasi lanjutan dan membantu mengarahkan kebutuhan acara.
-          </p>
+        <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="paper-panel ornament-ring rounded-[34px] p-7 lg:p-8">
+            <p className="eyebrow">Konsultasi Awal</p>
+            <h2 className="section-title mt-5 text-5xl font-semibold leading-tight text-[var(--brand-deep)]">
+              Ceritakan acara yang Anda bayangkan, kami bantu arahkan dari awal.
+            </h2>
+            <p className="section-copy mt-5 text-sm">
+              Form ini dibuat singkat agar calon klien bisa menjelaskan kebutuhan
+              dasar dengan nyaman. Setelah masuk, tim Kamadeva akan menindaklanjuti
+              dengan alur konsultasi yang lebih personal.
+            </p>
+            <div className="mt-8 rounded-[28px] border border-[rgba(212,175,55,0.16)] bg-[rgba(255,255,255,0.03)] p-5">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--muted)]">
+                Cocok untuk
+              </p>
+              <ul className="mt-4 space-y-3 text-sm leading-7 text-[var(--muted)]">
+                <li>Pasangan yang masih mencari arah paket dan skala acara.</li>
+                <li>Keluarga yang ingin proses koordinasi lebih tertata.</li>
+                <li>Calon klien yang ingin langsung masuk ke tim internal Kamadeva.</li>
+              </ul>
+            </div>
+          </div>
+          <LeadForm />
         </div>
-        <LeadForm />
       </section>
     </div>
   );

@@ -10,9 +10,11 @@ export default async function AdminLayout({
   const session = await requireSession();
 
   return (
-    <div className="admin-grid">
-      <AdminSidebar role={session.role} name={session.name} />
-      <div className="admin-main min-w-0 p-4 lg:p-8">{children}</div>
+    <div className="admin-shell">
+      <div className="admin-grid">
+        <AdminSidebar role={session.role} name={session.name} />
+        <div className="admin-main min-w-0 p-1 lg:p-4">{children}</div>
+      </div>
     </div>
   );
 }
