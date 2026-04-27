@@ -283,6 +283,30 @@ select.input-base option {
 .admin-sidebar {
   height: 100vh;
   overflow-y: auto;
+  width: 320px;
+  min-width: 320px;
+  transition:
+    width 220ms ease,
+    min-width 220ms ease;
+}
+
+.admin-sidebar.is-collapsed {
+  width: 108px;
+  min-width: 108px;
+}
+
+.admin-sidebar.is-collapsed .admin-sidebar-copy,
+.admin-sidebar.is-collapsed .admin-sidebar-label {
+  display: none;
+}
+
+.admin-sidebar.is-collapsed .admin-sidebar-brand {
+  padding: 16px;
+}
+
+.admin-sidebar.is-collapsed nav a {
+  justify-content: center;
+  padding-inline: 12px;
 }
 
 .admin-main {
@@ -306,6 +330,23 @@ select.input-base option {
   .admin-sidebar {
     height: auto;
     overflow: visible;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-sidebar.is-collapsed {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-sidebar.is-collapsed .admin-sidebar-copy,
+  .admin-sidebar.is-collapsed .admin-sidebar-label {
+    display: initial;
+  }
+
+  .admin-sidebar.is-collapsed nav a {
+    justify-content: flex-start;
+    padding-inline: 16px;
   }
 
   .admin-main {

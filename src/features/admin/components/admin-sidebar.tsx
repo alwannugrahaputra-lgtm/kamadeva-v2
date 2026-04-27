@@ -4,7 +4,9 @@
 // Penjelasan file: komponen admin untuk tampilan dan interaksi modul internal.
 import Image from "next/image";
 import Link from "next/link";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { type AppRole } from "@/shared/config/access";
 import { adminNavigation } from "@/shared/config/navigation";
 
@@ -16,14 +18,27 @@ export function AdminSidebar({
   name: string;
 }) {
   const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false);
   const visibleNavigation = adminNavigation.filter((item) =>
     item.allowedRoles.includes(role),
   );
 
   return (
-    <aside className="admin-sidebar">
+    <aside className={`admin-sidebar ${collapsed ? "is-collapsed" : ""}`}>
       <div className="paper-panel ornament-ring min-h-full rounded-[34px] p-5 lg:p-6">
-        <div className="overflow-hidden rounded-[28px] border border-[rgba(212,175,55,0.14)] bg-[linear-gradient(180deg,rgba(18,18,18,0.96),rgba(8,8,8,0.96))] p-5">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => setCollapsed((value) => !value)}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-[18px] border border-[rgba(212,175,55,0.14)] bg-[rgba(255,255,255,0.03)] text-[var(--brand-deep)] transition hover:border-[rgba(212,175,55,0.28)] hover:bg-[rgba(212,175,55,0.08)]"
+            aria-label={collapsed ? "Tampilkan sidebar" : "Sembunyikan sidebar"}
+            title={collapsed ? "Tampilkan sidebar" : "Sembunyikan sidebar"}
+          >
+            {collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+          </button>
+        </div>
+
+        <div className="admin-sidebar-brand overflow-hidden rounded-[28px] border border-[rgba(212,175,55,0.14)] bg-[linear-gradient(180deg,rgba(18,18,18,0.96),rgba(8,8,8,0.96))] p-5">
           <div className="flex items-center gap-3">
             <div className="overflow-hidden rounded-[22px] border border-[var(--line)] bg-[#050505] shadow-[0_16px_34px_rgba(0,0,0,0.32)]">
               <Image
@@ -34,7 +49,7 @@ export function AdminSidebar({
                 className="h-12 w-12 object-cover"
               />
             </div>
-            <div>
+            <div className="admin-sidebar-copy">
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--muted)]">
                 Kamadeva WO
               </p>
@@ -43,7 +58,7 @@ export function AdminSidebar({
               </h1>
             </div>
           </div>
-          <div className="mt-5 rounded-[22px] border border-[rgba(212,175,55,0.12)] bg-[rgba(255,255,255,0.03)] p-4">
+          <div className="admin-sidebar-copy mt-5 rounded-[22px] border border-[rgba(212,175,55,0.12)] bg-[rgba(255,255,255,0.03)] p-4">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">
               Login aktif
             </p>
@@ -79,7 +94,7 @@ export function AdminSidebar({
                 >
                   <Icon size={18} />
                 </span>
-                <span className="font-medium">{item.label}</span>
+                <span className="admin-sidebar-label font-medium">{item.label}</span>
               </Link>
             );
           })}
