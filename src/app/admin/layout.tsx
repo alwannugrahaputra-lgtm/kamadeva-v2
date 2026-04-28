@@ -13,7 +13,7 @@ export default async function AdminLayout({
     <div className="admin-shell">
       <div className="admin-grid">
         <AdminSidebar role={session.role} name={session.name} />
-        <div className="admin-main min-w-0 p-1 lg:p-4">{children}</div>
+        <div className="admin-main">{children}</div>
       </div>
     </div>
   );

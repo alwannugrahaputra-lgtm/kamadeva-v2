@@ -1,2 +1,5 @@
-// Penjelasan file: route admin Next.js yang meneruskan render ke halaman fitur terkait.
-export { default } from "@/features/admin/pages/reports-page";
+import { redirect } from "next/navigation";
+
+export default function LegacyReportsPage() {
+  redirect("/admin/laporan");
+}

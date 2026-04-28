@@ -1,6 +1,6 @@
-// Penjelasan file: halaman admin untuk modul operasional terkait.
+// Penjelasan file: halaman admin untuk daftar calon klien.
 import Link from "next/link";
-import { ClientStatus, LeadStatus, VenuePreference } from "@prisma/client";
+import { LeadStatus, VenuePreference } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { AdminTopbar } from "@/features/admin/components/admin-topbar";
@@ -9,108 +9,43 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { ADMIN_ACTION_ACCESS, ADMIN_ROUTE_ACCESS, hasRoleAccess } from "@/shared/config/access";
 import { requireRole } from "@/server/auth/session";
 import { prisma } from "@/server/db/prisma";
-import { formatCurrency, formatDate } from "@/shared/lib/format";
+import { formatDate } from "@/shared/lib/format";
 
 export default async function LeadsPage({
   searchParams,
+  mode = "list",
+  routeBase = "/admin/calon-klien",
 }: {
-  searchParams: Promise<{ edit?: string }>;
+  searchParams: Promise<{ q?: string; edit?: string }>;
+  mode?: "list" | "create" | "edit";
+  routeBase?: string;
 }) {
   const session = await requireRole(ADMIN_ROUTE_ACCESS.leads);
   const canManageLeads = hasRoleAccess(ADMIN_ACTION_ACCESS.leadsManage, session.role);
   const params = await searchParams;
-  const editingLead = params.edit
-    ? await prisma.lead.findUnique({
-        where: { id: params.edit },
-      })
-    : null;
+  const query = params.q?.trim();
+  const editId = params.edit;
+  const currentMode = mode === "create" ? "create" : editId ? "edit" : "list";
 
   const leads = await prisma.lead.findMany({
+    where: query
+      ? {
+          OR: [
+            { name: { contains: query } },
+            { location: { contains: query } },
+            { source: { contains: query } },
+          ],
+        }
+      : undefined,
     orderBy: { createdAt: "desc" },
   });
 
-  async function convertLeadToClient(formData: FormData) {
-    "use server";
-    await requireRole(ADMIN_ACTION_ACCESS.leadsManage);
-
-    const leadId = String(formData.get("id") ?? "").trim();
-    if (!leadId) {
-      redirect("/admin/leads");
-    }
-
-    const createdClient = await prisma.$transaction(async (tx) => {
-      const lead = await tx.lead.findUnique({
-        where: { id: leadId },
-      });
-
-      if (!lead) {
-        throw new Error("Data calon klien tidak ditemukan.");
-      }
-
-      const client = await tx.client.create({
-        data: {
-          fullName: lead.name,
-          phone: lead.whatsapp,
-          eventDate: lead.eventDate,
-          eventLocation: lead.location,
-          eventType: "Wedding",
-          budget: lead.budget,
-          preferredVenue: lead.preferredVenue,
-          guestCount: lead.guestCount,
-          status: ClientStatus.PROSPEK,
-          specialNotes: [lead.neededServices, lead.notes].filter(Boolean).join("\n\n"),
-        },
-      });
-
-      // Pindahkan seluruh relasi agar histori calon klien tetap ikut
-      // menjadi histori klien baru tanpa kehilangan jejak data.
-      await tx.communicationLog.updateMany({
-        where: { leadId: lead.id },
-        data: {
-          clientId: client.id,
-          leadId: null,
-        },
-      });
-
-      await tx.document.updateMany({
-        where: { leadId: lead.id },
-        data: {
-          clientId: client.id,
-          leadId: null,
-        },
-      });
-
-      await tx.scheduleItem.updateMany({
-        where: { leadId: lead.id },
-        data: {
-          clientId: client.id,
-          leadId: null,
-        },
-      });
-
-      await tx.whatsAppSync.updateMany({
-        where: { leadId: lead.id },
-        data: {
-          clientId: client.id,
-          leadId: null,
-        },
-      });
-
-      await tx.lead.delete({
-        where: { id: lead.id },
-      });
-
-      return client;
-    });
-
-    revalidatePath("/admin");
-    revalidatePath("/admin/leads");
-    revalidatePath("/admin/clients");
-    revalidatePath("/admin/schedule");
-    revalidatePath("/admin/documents");
-    revalidatePath("/admin/whatsapp");
-    redirect(`/admin/clients?edit=${createdClient.id}`);
-  }
+  const editingLead =
+    currentMode === "edit" && editId
+      ? await prisma.lead.findUnique({
+          where: { id: editId },
+        })
+      : null;
 
   async function upsertLead(formData: FormData) {
     "use server";
@@ -138,7 +73,8 @@ export default async function LeadsPage({
 
     revalidatePath("/admin");
     revalidatePath("/admin/leads");
-    redirect("/admin/leads");
+    revalidatePath(routeBase);
+    redirect(routeBase);
   }
 
   async function deleteLead(formData: FormData) {
@@ -146,33 +82,28 @@ export default async function LeadsPage({
     await requireRole(ADMIN_ACTION_ACCESS.leadsManage);
     const id = String(formData.get("id"));
     await prisma.lead.delete({ where: { id } });
+    revalidatePath("/admin");
     revalidatePath("/admin/leads");
-    redirect("/admin/leads");
+    revalidatePath(routeBase);
+    redirect(routeBase);
   }
 
-  return (
-    <div>
-      <AdminTopbar
-        title="Calon Klien"
-        description="Prospek baru dari website dan konsultasi awal."
-      />
-      <div className={canManageLeads ? "grid gap-6 xl:grid-cols-[0.9fr_1.1fr]" : "grid gap-6"}>
-        {canManageLeads ? (
-        <div className="glass-card rounded-[30px] p-6">
+  if (canManageLeads && (currentMode === "create" || currentMode === "edit")) {
+    return (
+      <div>
+        <AdminTopbar
+          title={currentMode === "edit" ? "Edit Calon Klien" : "Tambah Calon Klien"}
+          description="Lengkapi data calon klien lalu simpan kembali ke daftar."
+        />
+        <div className="admin-form-panel">
           <div className="mb-5 flex items-center justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.2em] text-[var(--muted)]">
-                {editingLead ? "Edit calon klien" : "Tambah calon klien"}
-              </p>
-              <h3 className="mt-2 text-2xl font-semibold text-[var(--brand-deep)]">
-                {editingLead?.name ?? "Calon klien baru"}
-              </h3>
+              <p className="admin-panel-kicker">{currentMode === "edit" ? "Edit calon klien" : "Tambah calon klien"}</p>
+              <h3 className="admin-panel-title">{editingLead?.name ?? "Data calon klien baru"}</h3>
             </div>
-            {editingLead ? (
-              <Link href="/admin/leads" className="text-sm font-semibold text-[var(--brand-deep)]">
-                Reset form
-              </Link>
-            ) : null}
+            <Link href={routeBase} className="text-sm font-semibold text-[var(--brand-deep)]">
+              Kembali ke list
+            </Link>
           </div>
           <form action={upsertLead}>
             <input type="hidden" name="id" defaultValue={editingLead?.id ?? ""} />
@@ -203,70 +134,78 @@ export default async function LeadsPage({
             <textarea name="notes" defaultValue={editingLead?.notes ?? ""} placeholder="Catatan admin atau brief awal" className="input-base mt-4 min-h-32" />
             <div className="mt-4">
               <SubmitButton pendingText="Menyimpan calon klien...">
-                {editingLead ? "Update Calon Klien" : "Tambah Calon Klien"}
+                {currentMode === "edit" ? "Simpan Perubahan" : "Simpan Calon Klien"}
               </SubmitButton>
             </div>
           </form>
         </div>
-        ) : null}
+      </div>
+    );
+  }
 
-        <div className="glass-card rounded-[30px] p-6">
-          <div className="table-shell">
-            <table>
-              <thead>
-                <tr>
-                  <th>Calon klien</th>
-                  <th>Tanggal</th>
-                  <th>Kebutuhan</th>
-                  <th>Status</th>
-                  <th>Budget</th>
-                  <th>Aksi</th>
+  return (
+    <div>
+      <AdminTopbar
+        title="Calon Klien"
+        description="Prospek baru dari website, Instagram, dan WhatsApp."
+      />
+      <div className="admin-list-panel">
+        <div className="admin-toolbar">
+          <form action={routeBase}>
+            <div className="admin-search-row">
+              <input name="q" defaultValue={query ?? ""} placeholder="Cari calon klien..." className="input-base" />
+              <button type="submit" className="admin-search-button">
+                Cari
+              </button>
+            </div>
+          </form>
+          {canManageLeads ? (
+            <Link href={`${routeBase}/tambah`} className="admin-primary-link">
+              + Tambah
+            </Link>
+          ) : null}
+        </div>
+        <div className="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Tanggal Input</th>
+                <th>Sumber</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leads.map((lead) => (
+                <tr key={lead.id}>
+                  <td className="font-medium text-[var(--brand-deep)]">{lead.name}</td>
+                  <td>{formatDate(lead.createdAt)}</td>
+                  <td>{lead.source}</td>
+                  <td>
+                    <Badge tone={lead.status === LeadStatus.DEAL ? "success" : "brand"}>{lead.status}</Badge>
+                  </td>
+                  <td>
+                    {canManageLeads ? (
+                      <div className="flex gap-2">
+                        <Link href={`${routeBase}?edit=${lead.id}`} className="admin-table-link">
+                          Edit
+                        </Link>
+                        <form action={deleteLead}>
+                          <input type="hidden" name="id" value={lead.id} />
+                          <button type="submit" className="admin-danger-link">
+                            Hapus
+                          </button>
+                        </form>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-[var(--muted)]">Lihat saja</span>
+                    )}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {leads.map((lead) => (
-                  <tr key={lead.id}>
-                    <td>
-                      <p className="font-semibold text-[var(--brand-deep)]">{lead.name}</p>
-                      <p className="text-sm text-[var(--muted)]">{lead.whatsapp}</p>
-                    </td>
-                    <td>
-                      <p>{formatDate(lead.eventDate)}</p>
-                      <p className="text-sm text-[var(--muted)]">{lead.location}</p>
-                    </td>
-                    <td className="text-sm text-[var(--muted)]">{lead.neededServices}</td>
-                    <td>
-                      <Badge tone={lead.status === LeadStatus.DEAL ? "success" : "brand"}>{lead.status}</Badge>
-                    </td>
-                    <td>{formatCurrency(lead.budget)}</td>
-                    <td>
-                      {canManageLeads ? (
-                        <div className="flex flex-wrap gap-2">
-                          <Link href={`/admin/leads?edit=${lead.id}`} className="rounded-full border border-[var(--line)] px-3 py-2 text-xs font-semibold">
-                            Edit
-                          </Link>
-                          <form action={convertLeadToClient}>
-                            <input type="hidden" name="id" value={lead.id} />
-                            <button type="submit" className="rounded-full bg-[var(--soft)] px-3 py-2 text-xs font-semibold text-[var(--brand-deep)]">
-                              Ubah jadi Klien
-                            </button>
-                          </form>
-                          <form action={deleteLead}>
-                            <input type="hidden" name="id" value={lead.id} />
-                            <button type="submit" className="rounded-full bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700">
-                              Hapus
-                            </button>
-                          </form>
-                        </div>
-                      ) : (
-                        <span className="text-xs text-[var(--muted)]">Lihat saja</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

@@ -1,8 +1,7 @@
-// Penjelasan file: seed data awal untuk kebutuhan demo dan pengembangan lokal.
+// Penjelasan file: seed data admin disamakan dengan nama dan alur pada mockup.
 import bcrypt from "bcryptjs";
 import {
   ClientStatus,
-  CommunicationChannel,
   DocumentStatus,
   DocumentType,
   LeadStatus,
@@ -39,7 +38,7 @@ async function main() {
 
   const passwordHash = await bcrypt.hash("kamadeva123", 10);
 
-  const [owner, admin, staff] = await Promise.all([
+  await Promise.all([
     prisma.user.create({
       data: {
         name: "Alya Kamadeva",
@@ -51,7 +50,7 @@ async function main() {
     }),
     prisma.user.create({
       data: {
-        name: "Nadia Admin",
+        name: "Admin Kamadeva",
         email: "admin@kamadeva.test",
         passwordHash,
         phone: "081234567802",
@@ -60,7 +59,7 @@ async function main() {
     }),
     prisma.user.create({
       data: {
-        name: "Raka Operasional",
+        name: "Staff Kamadeva",
         email: "staff@kamadeva.test",
         passwordHash,
         phone: "081234567803",
@@ -80,54 +79,55 @@ async function main() {
       instagram: "@kamadevaorganizer",
       tiktok: "@kamadevaorganizer",
       heroTitle: "Perencanaan wedding yang rapi, hangat, dan berkelas",
-      heroSubtitle:
-        "Dari konsultasi awal hingga hari acara, setiap detail dikelola dalam satu alur yang tenang dan terukur.",
+      heroSubtitle: "Dari konsultasi awal hingga hari acara, setiap detail dikelola dalam satu alur yang tenang dan terukur.",
     },
   });
 
-  const weddingPackages = await Promise.all([
+  const [intimatePkg, elegantPkg, luxuryPkg] = await Promise.all([
     prisma.weddingPackage.create({
       data: {
-        name: "Sagara Intimate",
-        slug: "sagara-intimate",
+        name: "Intimate",
+        slug: "intimate",
         price: 25000000,
-        description: "Paket intimate wedding elegan untuk acara hangat dengan koordinasi penuh.",
-        facilities: "WO full day, MC, dekor pelaminan, dokumentasi 6 jam, makeup pengantin, rundown acara",
-        includedVendors: "Dekorasi, makeup, dokumentasi, MC",
-        addOns: "Live music, photobooth, ekstra lighting",
+        description: "Paket intimate untuk pernikahan hangat dan tertata.",
+        facilities: "Untuk 100 Pax, Dekorasi Standard, WO Team, Dokumentasi, MC",
+        includedVendors: "Dekorasi, WO Team, Dokumentasi, MC",
+        addOns: "Live music, photobooth",
         recommendedVenue: VenuePreference.RUMAH,
-        minGuests: 50,
+        minGuests: 80,
+        maxGuests: 100,
+        isActive: true,
+      },
+    }),
+    prisma.weddingPackage.create({
+      data: {
+        name: "Elegant",
+        slug: "elegant",
+        price: 45000000,
+        description: "Paket wedding elegan untuk acara menengah dengan dukungan vendor lengkap.",
+        facilities: "Untuk 200 Pax, Dekorasi Premium, WO Team, Dokumentasi, MC, Entertainment",
+        includedVendors: "Dekorasi, WO Team, Dokumentasi, MC, Entertainment",
+        addOns: "Bridesmaid dressing room, live streaming",
+        recommendedVenue: VenuePreference.GEDUNG,
+        minGuests: 150,
         maxGuests: 200,
         isFeatured: true,
+        isActive: true,
       },
     }),
     prisma.weddingPackage.create({
       data: {
-        name: "Arunika Ballroom",
-        slug: "arunika-ballroom",
-        price: 68000000,
-        description: "Paket gedung lengkap untuk pasangan yang ingin pengalaman profesional dan mewah.",
-        facilities: "WO all-in, dekor premium, catering 500 pax, fotografi-video, entertainment, bridal, lighting",
-        includedVendors: "Dekorasi, catering, hiburan, foto-video, busana, makeup",
-        addOns: "LED backdrop, after party, livestreaming",
+        name: "Luxury",
+        slug: "luxury",
+        price: 75000000,
+        description: "Paket premium untuk resepsi besar dengan konsep lebih mewah.",
+        facilities: "Untuk 300 Pax, Dekorasi Luxury, WO Team, Dokumentasi, MC, Entertainment, Custom Needs",
+        includedVendors: "Dekorasi, WO Team, Dokumentasi, MC, Entertainment",
+        addOns: "Custom gate, VIP lounge, LED backdrop",
         recommendedVenue: VenuePreference.GEDUNG,
         minGuests: 250,
-        maxGuests: 700,
-        isFeatured: true,
-      },
-    }),
-    prisma.weddingPackage.create({
-      data: {
-        name: "Maheswari Signature",
-        slug: "maheswari-signature",
-        price: 95000000,
-        description: "Paket signature fleksibel dengan kurasi vendor premium dan pendampingan penuh.",
-        facilities: "Full planning, venue scouting, vendor management, design concept, premium photo-video, bridal team",
-        includedVendors: "All vendor core + konsultasi konsep eksklusif",
-        addOns: "Sangjit, engagement, wedding website premium",
-        recommendedVenue: VenuePreference.FLEKSIBEL,
-        minGuests: 150,
-        maxGuests: 600,
+        maxGuests: 300,
+        isActive: true,
       },
     }),
   ]);
@@ -135,178 +135,167 @@ async function main() {
   const vendors = await Promise.all([
     prisma.vendor.create({
       data: {
-        name: "Lotus Decoration Studio",
+        name: "Dekorasi Indah",
         category: VendorCategory.DEKORASI,
-        phone: "081211110001",
-        email: "lotus@vendor.test",
-        address: "Surabaya",
+        phone: "0812-3456-7890",
         priceStart: 12000000,
         rating: 4.8,
-        collaborationLog: "12 event bersama Kamadeva sejak 2024",
-        performanceNotes: "Respons cepat, hasil dekor konsisten, tim lapangan rapi.",
+        address: "Bandung",
+        collaborationLog: "Vendor dekor utama untuk ballroom dan outdoor.",
+        performanceNotes: "Rapih, cepat, dan konsisten sesuai brief.",
       },
     }),
     prisma.vendor.create({
       data: {
-        name: "Rasa Bahagia Catering",
+        name: "Catering Lezat",
         category: VendorCategory.CATERING,
-        phone: "081211110002",
-        address: "Sidoarjo",
-        priceStart: 35000,
+        phone: "0813-2345-6789",
+        priceStart: 35000000,
         rating: 4.6,
-        collaborationLog: "8 event ballroom dan 4 event rumahan",
-        performanceNotes: "Menu stabil dan baik untuk tamu besar.",
+        address: "Jakarta",
+        collaborationLog: "Sering dipakai untuk acara 200-500 pax.",
+        performanceNotes: "Menu aman dan cepat saat service.",
       },
     }),
     prisma.vendor.create({
       data: {
-        name: "Lensa Cerita",
+        name: "Foto Bahagia",
         category: VendorCategory.FOTOGRAFI,
-        phone: "081211110003",
-        address: "Malang",
+        phone: "0814-5678-9101",
         priceStart: 8000000,
         rating: 4.9,
-        collaborationLog: "Vendor foto-video andalan untuk paket premium",
-        performanceNotes: "Hasil visual kuat dan disiplin deadline.",
+        address: "Bogor",
+        collaborationLog: "Tim dokumentasi utama paket premium.",
+        performanceNotes: "Komunikasi rapi dan hasil konsisten.",
       },
     }),
   ]);
 
-  const clientA = await prisma.client.create({
-    data: {
-      fullName: "Raisa Putri & Dimas Akbar",
-      phone: "081355550001",
-      email: "raisa.dimas@test.com",
-      address: "Jl. Kenanga 12, Surabaya",
-      eventDate: new Date("2026-06-28T09:00:00.000Z"),
-      eventLocation: "Graha Puspita Ballroom",
-      eventType: "Akad & Resepsi",
-      budget: 90000000,
-      selectedPackageId: weddingPackages[1].id,
-      preferredVenue: VenuePreference.GEDUNG,
-      guestCount: 500,
-      status: ClientStatus.DEAL,
-      specialNotes: "Butuh area khusus keluarga lansia dan makanan tanpa seafood.",
-    },
-  });
-
-  const clientB = await prisma.client.create({
-    data: {
-      fullName: "Anisa Rahma & Bintang Saputra",
-      phone: "081355550002",
-      email: "anisa.bintang@test.com",
-      address: "Jl. Melati 7, Gresik",
-      eventDate: new Date("2026-05-10T08:00:00.000Z"),
-      eventLocation: "Rumah mempelai wanita",
-      eventType: "Akad Intimate",
-      budget: 30000000,
-      selectedPackageId: weddingPackages[0].id,
-      preferredVenue: VenuePreference.RUMAH,
-      guestCount: 120,
-      status: ClientStatus.BERJALAN,
-      specialNotes: "Ingin nuansa earth tone dan venue semi outdoor.",
-    },
-  });
-
-  const leads = await Promise.all([
-    prisma.lead.create({
+  const [clientA, clientB, clientC] = await Promise.all([
+    prisma.client.create({
       data: {
-        name: "Fira Maharani",
-        whatsapp: "081277770001",
-        eventDate: new Date("2026-09-12T10:00:00.000Z"),
-        location: "Surabaya Barat",
-        budget: 45000000,
+        fullName: "Ana & Dimas",
+        phone: "081355550001",
+        email: "ana.dimas@test.com",
+        address: "Bandung",
+        eventDate: new Date("2026-05-20T10:00:00.000Z"),
+        eventLocation: "Bandung",
+        eventType: "Wedding Reception",
+        budget: 250000000,
+        selectedPackageId: elegantPkg.id,
+        preferredVenue: VenuePreference.GEDUNG,
+        guestCount: 200,
+        status: ClientStatus.BERJALAN,
+      },
+    }),
+    prisma.client.create({
+      data: {
+        fullName: "Rina & Fajar",
+        phone: "081355550002",
+        email: "rina.fajar@test.com",
+        address: "Jakarta",
+        eventDate: new Date("2026-06-10T09:00:00.000Z"),
+        eventLocation: "Jakarta",
+        eventType: "Akad & Resepsi",
+        budget: 180000000,
+        selectedPackageId: intimatePkg.id,
+        preferredVenue: VenuePreference.RUMAH,
+        guestCount: 100,
+        status: ClientStatus.BERJALAN,
+      },
+    }),
+    prisma.client.create({
+      data: {
+        fullName: "Siska & Andi",
+        phone: "081355550003",
+        email: "siska.andi@test.com",
+        address: "Bogor",
+        eventDate: new Date("2026-07-05T08:00:00.000Z"),
+        eventLocation: "Bogor",
+        eventType: "Wedding Day",
+        budget: 150000000,
+        selectedPackageId: luxuryPkg.id,
         preferredVenue: VenuePreference.GEDUNG,
         guestCount: 300,
-        neededServices: "WO, dekorasi, catering, dokumentasi",
-        notes: "Minta rekomendasi paket gedung dengan konsep modern.",
+        status: ClientStatus.BERJALAN,
+      },
+    }),
+  ]);
+
+  const [leadA, leadB, leadC] = await Promise.all([
+    prisma.lead.create({
+      data: {
+        name: "Nina & Budi",
+        whatsapp: "081277770001",
+        eventDate: new Date("2026-04-20T00:00:00.000Z"),
+        location: "Website",
+        budget: 85000000,
+        preferredVenue: VenuePreference.GEDUNG,
+        guestCount: 250,
+        neededServices: "WO, dekorasi, dokumentasi",
+        notes: "Lead dari website",
+        source: "Website",
+        status: LeadStatus.LEAD,
+      },
+    }),
+    prisma.lead.create({
+      data: {
+        name: "Dewi & Ricky",
+        whatsapp: "081277770002",
+        eventDate: new Date("2026-04-21T00:00:00.000Z"),
+        location: "Instagram",
+        budget: 95000000,
+        preferredVenue: VenuePreference.GEDUNG,
+        guestCount: 300,
+        neededServices: "WO, catering, venue management",
+        notes: "Lead dari Instagram",
+        source: "Instagram",
         status: LeadStatus.PROSPEK,
       },
     }),
     prisma.lead.create({
       data: {
-        name: "Naufal Habibi",
-        whatsapp: "081277770002",
-        eventDate: new Date("2026-11-21T09:00:00.000Z"),
-        location: "Sidoarjo",
-        budget: 25000000,
+        name: "Toni & Putri",
+        whatsapp: "081277770003",
+        eventDate: new Date("2026-04-22T00:00:00.000Z"),
+        location: "WhatsApp",
+        budget: 65000000,
         preferredVenue: VenuePreference.RUMAH,
-        guestCount: 150,
-        neededServices: "WO, makeup, foto-video",
-        notes: "Cari paket hemat tapi tetap elegan.",
-        status: LeadStatus.LEAD,
+        guestCount: 180,
+        neededServices: "WO, makeup, dokumentasi",
+        notes: "Lead dari WhatsApp",
+        source: "WhatsApp",
+        status: LeadStatus.PROSPEK,
       },
     }),
   ]);
 
-  await prisma.communicationLog.createMany({
-    data: [
-      {
-        channel: CommunicationChannel.WHATSAPP,
-        summary: "Kirim proposal paket ballroom dan jadwal meeting lanjutan.",
-        clientId: clientA.id,
-        handledById: admin.id,
-      },
-      {
-        channel: CommunicationChannel.MEETING,
-        summary: "Finalisasi konsep intimate outdoor dan susunan rundown.",
-        clientId: clientB.id,
-        handledById: staff.id,
-      },
-      {
-        channel: CommunicationChannel.WEBSITE,
-        summary: "Lead masuk dari form konsultasi paket gedung.",
-        leadId: leads[0].id,
-        handledById: admin.id,
-      },
-    ],
-  });
-
   await prisma.scheduleItem.createMany({
     data: [
       {
-        title: "Rapat final vendor ballroom",
+        title: "Meeting Ana & Dimas",
         type: ScheduleType.MEETING,
-        startDate: new Date("2026-04-24T06:00:00.000Z"),
-        endDate: new Date("2026-04-24T07:00:00.000Z"),
-        location: "Studio Kamadeva",
+        startDate: new Date("2026-05-07T10:00:00.000Z"),
+        endDate: new Date("2026-05-07T11:00:00.000Z"),
         status: ScheduleStatus.TERJADWAL,
         clientId: clientA.id,
       },
       {
-        title: "Pelunasan tahap 2 Anisa & Bintang",
-        type: ScheduleType.PEMBAYARAN,
-        startDate: new Date("2026-04-26T02:00:00.000Z"),
-        endDate: new Date("2026-04-26T03:00:00.000Z"),
-        location: "Transfer bank",
-        status: ScheduleStatus.TERJADWAL,
-        clientId: clientB.id,
-      },
-      {
-        title: "Follow-up lead Fira Maharani",
+        title: "Follow-up Rina & Fajar",
         type: ScheduleType.FOLLOW_UP,
-        startDate: new Date("2026-04-22T03:00:00.000Z"),
-        endDate: new Date("2026-04-22T03:30:00.000Z"),
-        status: ScheduleStatus.TERJADWAL,
-        leadId: leads[0].id,
-      },
-      {
-        title: "Akad Anisa & Bintang",
-        type: ScheduleType.ACARA,
-        startDate: new Date("2026-05-10T01:00:00.000Z"),
-        endDate: new Date("2026-05-10T08:00:00.000Z"),
-        location: "Rumah mempelai wanita",
+        startDate: new Date("2026-05-10T14:00:00.000Z"),
+        endDate: new Date("2026-05-10T15:00:00.000Z"),
         status: ScheduleStatus.TERJADWAL,
         clientId: clientB.id,
       },
       {
-        title: "Koordinasi dekor Lotus Decoration Studio",
+        title: "Venue Check Hotel Santika",
         type: ScheduleType.VENDOR,
-        startDate: new Date("2026-04-25T04:00:00.000Z"),
-        endDate: new Date("2026-04-25T05:00:00.000Z"),
-        location: "Video call",
+        startDate: new Date("2026-05-17T16:00:00.000Z"),
+        endDate: new Date("2026-05-17T17:00:00.000Z"),
         status: ScheduleStatus.PROSES,
         vendorId: vendors[0].id,
+        location: "Hotel Santika",
       },
     ],
   });
@@ -317,20 +306,25 @@ async function main() {
         receiptNumber: "INV-KMD-2026-001",
         type: PaymentType.DP,
         status: PaymentStatus.DP,
-        description: "DP paket Arunika Ballroom",
-        amount: 25000000,
-        dueDate: new Date("2026-04-18T00:00:00.000Z"),
-        paidAt: new Date("2026-04-17T00:00:00.000Z"),
+        description: "DP Paket Elegant",
+        amount: 125000000,
         clientId: clientA.id,
       },
       {
         receiptNumber: "INV-KMD-2026-002",
+        type: PaymentType.DP,
+        status: PaymentStatus.BELUM_BAYAR,
+        description: "DP Paket Intimate",
+        amount: 45000000,
+        clientId: clientB.id,
+      },
+      {
+        receiptNumber: "INV-KMD-2026-003",
         type: PaymentType.PELUNASAN,
         status: PaymentStatus.BELUM_BAYAR,
-        description: "Pelunasan tahap 2 paket Sagara Intimate",
-        amount: 10000000,
-        dueDate: new Date("2026-04-26T00:00:00.000Z"),
-        clientId: clientB.id,
+        description: "Pelunasan Paket Luxury",
+        amount: 80000000,
+        clientId: clientC.id,
       },
     ],
   });
@@ -339,26 +333,26 @@ async function main() {
     data: [
       {
         type: TransactionType.CASH_IN,
-        title: "DP Raisa & Dimas",
-        category: "Pembayaran klien",
-        amount: 25000000,
-        transactionDate: new Date("2026-04-17T00:00:00.000Z"),
+        title: "Pembayaran Ana & Dimas",
+        category: "Client Payment",
+        amount: 250000000,
+        transactionDate: new Date("2026-05-01T00:00:00.000Z"),
         clientId: clientA.id,
       },
       {
         type: TransactionType.CASH_OUT,
-        title: "DP vendor dekorasi",
-        category: "Operasional vendor",
-        amount: 7000000,
-        transactionDate: new Date("2026-04-18T00:00:00.000Z"),
-        clientId: clientA.id,
+        title: "Pembayaran Vendor",
+        category: "Vendor Cost",
+        amount: 120000000,
+        transactionDate: new Date("2026-05-08T00:00:00.000Z"),
+        clientId: clientB.id,
       },
       {
         type: TransactionType.CASH_IN,
-        title: "Pembayaran konsultasi premium",
-        category: "Layanan konsultasi",
-        amount: 1500000,
-        transactionDate: new Date("2026-04-19T00:00:00.000Z"),
+        title: "Laba Bersih Awal",
+        category: "Revenue",
+        amount: 130000000,
+        transactionDate: new Date("2026-05-15T00:00:00.000Z"),
       },
     ],
   });
@@ -366,25 +360,25 @@ async function main() {
   await prisma.document.createMany({
     data: [
       {
-        title: "Kontrak kerja Raisa & Dimas",
+        title: "Kontrak Ana & Dimas.pdf",
         type: DocumentType.KONTRAK,
         status: DocumentStatus.DISETUJUI,
-        fileUrl: "https://example.com/dokumen/kontrak-raisa-dimas.pdf",
+        fileUrl: "https://example.com/dokumen/kontrak-ana-dimas.pdf",
         clientId: clientA.id,
       },
       {
-        title: "Brief acara Anisa & Bintang",
+        title: "Brief Wedding Rina & Fajar.pdf",
         type: DocumentType.BRIEF,
         status: DocumentStatus.DRAFT,
-        fileUrl: "https://example.com/dokumen/brief-anisa-bintang.pdf",
+        fileUrl: "https://example.com/dokumen/brief-rina-fajar.pdf",
         clientId: clientB.id,
       },
       {
-        title: "Proposal awal Fira Maharani",
-        type: DocumentType.BRIEF,
+        title: "Invoice Siska & Andi.pdf",
+        type: DocumentType.KUITANSI,
         status: DocumentStatus.DIKIRIM,
-        fileUrl: "https://example.com/dokumen/proposal-fira.pdf",
-        leadId: leads[0].id,
+        fileUrl: "https://example.com/dokumen/invoice-siska-andi.pdf",
+        clientId: clientC.id,
       },
     ],
   });
@@ -392,30 +386,31 @@ async function main() {
   await prisma.portfolioItem.createMany({
     data: [
       {
-        title: "Wedding of Wanda & Kalam",
-        category: "Akad & Resepsi",
-        description: "Momen pernikahan yang hangat dengan dokumentasi formal dan alur acara yang rapi.",
-        eventDate: new Date("2025-11-15T00:00:00.000Z"),
-        location: "Tasikmalaya",
-        imageUrl: "/portfolio/wanda-kalam.jpg",
-        isFeatured: true,
-      },
-      {
-        title: "Wedding of Hadiyan & Annisa",
-        category: "Wedding Reception",
-        description: "Resepsi dengan suasana meriah, penyambutan tamu yang hangat, dan visual yang elegan.",
-        eventDate: new Date("2026-01-20T00:00:00.000Z"),
-        location: "Tasikmalaya",
+        title: "Wedding Ana & Dimas",
+        category: "Ballroom Wedding",
+        description: "Dekorasi elegan untuk acara ballroom yang hangat dan tertata.",
+        eventDate: new Date("2026-05-20T00:00:00.000Z"),
+        location: "Bandung",
         imageUrl: "/portfolio/hadiyan-annisa.jpg",
         isFeatured: true,
       },
       {
-        title: "Wedding of Tedi & Nisrina",
-        category: "Wedding Reception",
-        description: "Dekor floral yang penuh detail untuk momen couple portrait yang anggun dan berkelas.",
-        eventDate: new Date("2026-02-14T00:00:00.000Z"),
-        location: "Tasikmalaya",
+        title: "Wedding Rina & Fajar",
+        category: "Intimate Wedding",
+        description: "Konsep intimate di rumah dengan detail floral lembut.",
+        eventDate: new Date("2026-06-10T00:00:00.000Z"),
+        location: "Jakarta",
+        imageUrl: "/portfolio/wanda-kalam.jpg",
+        isFeatured: true,
+      },
+      {
+        title: "Wedding Siska & Andi",
+        category: "Luxury Reception",
+        description: "Resepsi malam dengan nuansa modern dan premium.",
+        eventDate: new Date("2026-07-05T00:00:00.000Z"),
+        location: "Bogor",
         imageUrl: "/portfolio/tedi-nisrina.jpg",
+        isFeatured: true,
       },
     ],
   });
@@ -423,16 +418,16 @@ async function main() {
   await prisma.testimonial.createMany({
     data: [
       {
-        clientName: "Rania & Hafiz",
-        eventType: "Wedding Ballroom",
-        quote: "Kamadeva membuat kami tenang dari awal sampai hari H. Semua vendor terkoordinasi dan keluarga kami merasa sangat terbantu.",
+        clientName: "Ana & Dimas",
+        eventType: "Elegant Wedding",
+        quote: "Tim Kamadeva membantu dari awal sampai hari H dengan sangat rapi dan tenang.",
         rating: 5,
         isFeatured: true,
       },
       {
-        clientName: "Mira & Yoga",
+        clientName: "Rina & Fajar",
         eventType: "Intimate Wedding",
-        quote: "Form konsultasinya jelas, paketnya mudah dipahami, dan tim admin responsif sekali saat follow-up.",
+        quote: "Vendor terkoordinasi dengan baik dan keluarga merasa sangat terbantu.",
         rating: 5,
         isFeatured: true,
       },
@@ -442,21 +437,21 @@ async function main() {
   await prisma.faqItem.createMany({
     data: [
       {
-        category: "Paket",
-        question: "Apakah paket bisa disesuaikan dengan budget?",
-        answer: "Bisa. Admin dapat menyesuaikan vendor, jumlah tamu, dan tambahan layanan agar rekomendasi tetap realistis sesuai anggaran.",
+        category: "CONTENT:Halaman:Published",
+        question: "Tentang Kami",
+        answer: "Halaman profil utama Kamadeva Wedding Organizer.",
         sortOrder: 1,
       },
       {
-        category: "Teknis",
-        question: "Apakah Kamadeva menangani acara di rumah dan gedung?",
-        answer: "Ya. Sistem dan tim kami menyiapkan alur berbeda untuk acara rumahan, gedung, maupun konsep hybrid.",
+        category: "CONTENT:Halaman:Published",
+        question: "Paket Wedding",
+        answer: "Halaman daftar paket intimate, elegant, dan luxury.",
         sortOrder: 2,
       },
       {
-        category: "Pembayaran",
-        question: "Bagaimana sistem pembayarannya?",
-        answer: "Pembayaran dapat dicicil dengan DP, termin, dan pelunasan. Invoice serta kuitansi dapat dipantau dari dashboard admin.",
+        category: "CONTENT:Halaman:Draft",
+        question: "Portfolio",
+        answer: "Halaman dokumentasi event yang pernah ditangani.",
         sortOrder: 3,
       },
     ],
@@ -465,16 +460,40 @@ async function main() {
   await prisma.whatsAppSync.createMany({
     data: [
       {
+        externalChatId: "chat-nina-budi",
         direction: WhatsAppDirection.INBOUND,
-        preview: "Halo kak, saya tertarik paket gedung untuk 300 tamu.",
-        leadId: leads[0].id,
-        externalChatId: "wa-demo-001",
+        preview: "Halo, kami tertarik dengan paket wedding yang tersedia.",
+        leadId: leadA.id,
       },
       {
+        externalChatId: "chat-nina-budi",
         direction: WhatsAppDirection.OUTBOUND,
-        preview: "Baik kak, kami kirim rekomendasi paket Arunika Ballroom ya.",
-        leadId: leads[0].id,
-        externalChatId: "wa-demo-001",
+        preview: "Baik kak Nina & Budi, kami kirim detail paketnya ya.",
+        leadId: leadA.id,
+      },
+      {
+        externalChatId: "chat-dewi-ricky",
+        direction: WhatsAppDirection.INBOUND,
+        preview: "Apakah tanggal 21 April masih tersedia?",
+        leadId: leadB.id,
+      },
+      {
+        externalChatId: "chat-dewi-ricky",
+        direction: WhatsAppDirection.OUTBOUND,
+        preview: "Tanggal masih tersedia, boleh kami bantu pilih paket?",
+        leadId: leadB.id,
+      },
+      {
+        externalChatId: "chat-toni-putri",
+        direction: WhatsAppDirection.INBOUND,
+        preview: "Kami mau wedding intimate di rumah.",
+        leadId: leadC.id,
+      },
+      {
+        externalChatId: "chat-toni-putri",
+        direction: WhatsAppDirection.OUTBOUND,
+        preview: "Siap kak, kami rekomendasikan paket Intimate.",
+        leadId: leadC.id,
       },
     ],
   });
@@ -483,7 +502,6 @@ async function main() {
   console.log("owner@kamadeva.test / kamadeva123");
   console.log("admin@kamadeva.test / kamadeva123");
   console.log("staff@kamadeva.test / kamadeva123");
-  void owner;
 }
 
 main()

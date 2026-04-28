@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { ArrowRight, CalendarClock, CheckCheck, ClipboardPenLine, HandHeart, Store, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollReveal } from "@/features/public/components/scroll-reveal";
 import { PublicHeader } from "@/features/public/components/site-shell";
 import { getPublicSiteSetting } from "@/server/services/public-content";
 
@@ -47,9 +48,11 @@ export default async function HomePage() {
         <PublicHeader whatsappNumber={site.whatsappNumber} />
       </div>
       <section className="landing-hero">
+        <div className="landing-hero-glow landing-hero-glow--one" />
+        <div className="landing-hero-glow landing-hero-glow--two" />
         <div className="container-shell">
           <div className="landing-hero-grid">
-            <div className="landing-hero-copy">
+            <div className="landing-hero-copy landing-reveal">
               <p className="eyebrow">Wujudkan momen terbaik Anda</p>
               <h1 className="section-title mt-6 font-semibold">
                 Pernikahan Impian,
@@ -60,7 +63,7 @@ export default async function HomePage() {
                 {site.businessName} siap membantu Anda merencanakan pernikahan yang
                 berkesan, elegan, dan tak terlupakan.
               </p>
-              <div className="landing-actions">
+              <div className="landing-actions landing-reveal landing-reveal--delay">
                 <Link href="/kontak#konsultasi">
                   <Button>
                     Konsultasi Gratis
@@ -77,19 +80,27 @@ export default async function HomePage() {
       </section>
 
       <section className="container-shell">
-        <div className="landing-section-heading">
-          <p className="eyebrow">Kenapa memilih Kamadeva?</p>
-          <h2 className="section-title mt-5 text-5xl font-semibold">
-            Kami Mengatur, Anda Menikmati
-          </h2>
-        </div>
+        <ScrollReveal variant="up">
+          <div className="landing-section-heading">
+            <p className="eyebrow">Kenapa memilih Kamadeva?</p>
+            <h2 className="section-title mt-5 text-5xl font-semibold">
+              Kami Mengatur, Anda Menikmati
+            </h2>
+          </div>
+        </ScrollReveal>
         <div className="why-grid">
-          {reasons.map((item) => (
-            <article key={item.title} className="why-card">
-              <item.icon className="why-icon" size={34} />
-              <h3 className="text-lg font-semibold text-[var(--brand-deep)]">{item.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-[var(--muted)]">{item.description}</p>
-            </article>
+          {reasons.map((item, index) => (
+            <ScrollReveal
+              key={item.title}
+              variant="up"
+              delay={0.06 * index}
+            >
+              <article className="why-card">
+                <item.icon className="why-icon" size={34} />
+                <h3 className="text-lg font-semibold text-[var(--brand-deep)]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">{item.description}</p>
+              </article>
+            </ScrollReveal>
           ))}
         </div>
       </section>
