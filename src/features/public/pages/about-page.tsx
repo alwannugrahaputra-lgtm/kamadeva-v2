@@ -1,5 +1,6 @@
 // Penjelasan file: halaman publik untuk website Kamadeva.
 import { Badge } from "@/components/ui/badge";
+import { PublicHeader } from "@/features/public/components/site-shell";
 import { getPublicSiteSetting } from "@/server/services/public-content";
 
 export default async function TentangKamiPage() {
@@ -13,6 +14,7 @@ export default async function TentangKamiPage() {
 
   return (
     <section className="container-shell public-page-shell">
+      <PublicHeader whatsappNumber={site?.whatsappNumber ?? "6281234567890"} />
       <div className="paper-panel ornament-ring rounded-[36px] p-7 lg:p-9">
         <Badge tone="brand">Tentang Kami</Badge>
         <h1 className="section-title mt-5 max-w-4xl text-6xl font-semibold text-[var(--brand-deep)]">

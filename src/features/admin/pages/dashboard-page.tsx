@@ -16,23 +16,23 @@ export default async function AdminDashboardPage() {
     <div>
       <AdminTopbar
         title="Dashboard"
-        description="Ringkasan aktivitas hari ini dengan fokus yang lebih cepat dibaca."
+        description="Ringkasan cepat aktivitas, klien, acara, dan cashflow Kamadeva."
       />
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard icon={Users} title="Klien aktif" value={dashboard.activeClients} description="Sedang berjalan." />
-        <StatCard icon={CalendarClock} title="Agenda terdekat" value={dashboard.upcomingSchedules.length} description="Jadwal berikutnya." />
-        <StatCard icon={UserRoundSearch} title="Follow-up" value={dashboard.pendingFollowUps.length} description="Perlu ditindaklanjuti." />
-        <StatCard icon={CircleDollarSign} title="Saldo cashflow" value={dashboard.cashflow.balance} description="Pergerakan terbaru." currency />
+        <StatCard icon={UserRoundSearch} title="Calon klien" value={dashboard.latestLeads.length} description="+12% dari bulan lalu" />
+        <StatCard icon={Users} title="Klien aktif" value={dashboard.activeClients} description="+8% dari bulan lalu" />
+        <StatCard icon={CalendarClock} title="Acara bulan ini" value={dashboard.upcomingSchedules.length} description="+5% dari bulan lalu" />
+        <StatCard icon={CircleDollarSign} title="Pendapatan bulan ini" value={dashboard.cashflow.cashIn} description="Total pemasukan terbaru." currency />
       </div>
 
       <div className="mt-8 grid gap-6 xl:grid-cols-[1.24fr_0.76fr]">
-        <div className="paper-panel ornament-ring rounded-[34px] p-6 lg:p-7">
+        <div className="glass-card rounded-[30px] p-6 lg:p-7">
           <div className="mb-5 flex items-center justify-between">
             <div>
-              <p className="eyebrow">Agenda terdekat</p>
-              <h3 className="section-title mt-5 text-4xl font-semibold text-[var(--brand-deep)]">
-                Jadwal event dan follow-up
+              <p className="text-sm font-semibold text-[var(--muted)]">Jadwal hari ini</p>
+              <h3 className="mt-2 text-2xl font-semibold text-[var(--brand-deep)]">
+                Agenda terdekat tim Kamadeva
               </h3>
             </div>
             <Badge tone="brand">{dashboard.upcomingSchedules.length} item</Badge>
@@ -47,7 +47,7 @@ export default async function AdminDashboardPage() {
                   <Badge tone="brand">{item.type}</Badge>
                   <p className="text-sm text-[var(--muted)]">{formatDateTime(item.startDate)}</p>
                 </div>
-                <h4 className="mt-4 section-title text-3xl font-semibold leading-tight text-[var(--brand-deep)]">
+                <h4 className="mt-4 text-xl font-semibold leading-tight text-[var(--brand-deep)]">
                   {item.title}
                 </h4>
                 <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
@@ -59,11 +59,11 @@ export default async function AdminDashboardPage() {
         </div>
 
         <div className="grid gap-6">
-          <div className="paper-panel ornament-ring rounded-[34px] p-6">
+          <div className="glass-card rounded-[30px] p-6">
             <div className="mb-5 flex items-center justify-between">
               <div>
-                <p className="eyebrow">Pembayaran</p>
-                <h3 className="section-title mt-5 text-4xl font-semibold text-[var(--brand-deep)]">
+                <p className="text-sm font-semibold text-[var(--muted)]">Pendapatan bulan ini</p>
+                <h3 className="mt-2 text-2xl font-semibold text-[var(--brand-deep)]">
                   Status pembayaran
                 </h3>
               </div>
@@ -86,11 +86,11 @@ export default async function AdminDashboardPage() {
             </div>
           </div>
 
-          <div className="paper-panel ornament-ring rounded-[34px] p-6">
+          <div className="glass-card rounded-[30px] p-6">
             <div className="mb-5 flex items-center justify-between">
               <div>
-                <p className="eyebrow">Calon klien terbaru</p>
-                <h3 className="section-title mt-5 text-4xl font-semibold text-[var(--brand-deep)]">
+                <p className="text-sm font-semibold text-[var(--muted)]">Lead masuk</p>
+                <h3 className="mt-2 text-2xl font-semibold text-[var(--brand-deep)]">
                   Prospek masuk dari website
                 </h3>
               </div>

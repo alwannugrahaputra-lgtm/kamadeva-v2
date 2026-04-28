@@ -5,14 +5,16 @@ import { SubmitButton } from "@/components/ui/submit-button";
 
 export function AdminTopbar({ title, description }: { title: string; description?: string }) {
   return (
-    <div className="paper-panel ornament-ring mb-8 flex flex-col gap-5 rounded-[34px] p-6 lg:flex-row lg:items-center lg:justify-between lg:p-8">
+    <div className="admin-topbar-card mb-6 flex flex-col gap-5 rounded-[26px] p-6 lg:flex-row lg:items-center lg:justify-between">
       <div>
-        <p className="eyebrow">Kamadeva Dashboard</p>
-        <h2 className="mt-5 section-title text-5xl font-semibold text-[var(--brand-deep)]">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+          Kamadeva Dashboard
+        </p>
+        <h2 className="mt-3 text-[2rem] font-semibold text-[var(--brand-deep)]">
           {title}
         </h2>
         {description ? (
-          <p className="section-copy mt-3 max-w-2xl text-sm">{description}</p>
+          <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">{description}</p>
         ) : null}
       </div>
       <form

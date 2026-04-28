@@ -2,14 +2,19 @@
 import { Badge } from "@/components/ui/badge";
 import { LeadForm } from "@/features/public/components/lead-form";
 import { PackageSimulator } from "@/features/public/components/package-simulator";
-import { getPublicWeddingPackages } from "@/server/services/public-content";
+import { PublicHeader } from "@/features/public/components/site-shell";
+import { getPublicSiteSetting, getPublicWeddingPackages } from "@/server/services/public-content";
 import { formatCurrency } from "@/shared/lib/format";
 
 export default async function PaketPage() {
-  const packages = await getPublicWeddingPackages();
+  const [site, packages] = await Promise.all([
+    getPublicSiteSetting(),
+    getPublicWeddingPackages(),
+  ]);
 
   return (
     <section className="container-shell public-page-shell">
+      <PublicHeader whatsappNumber={site?.whatsappNumber ?? "6281234567890"} />
       <Badge tone="brand">Paket Wedding</Badge>
       <h1 className="section-title mt-5 max-w-4xl text-6xl font-semibold text-[var(--brand-deep)]">
         Pilihan paket untuk berbagai gaya dan skala acara

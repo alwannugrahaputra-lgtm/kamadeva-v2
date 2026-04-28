@@ -1,12 +1,9 @@
 "use client";
 
-
 // Penjelasan file: komponen admin untuk tampilan dan interaksi modul internal.
 import Image from "next/image";
 import Link from "next/link";
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { type AppRole } from "@/shared/config/access";
 import { adminNavigation } from "@/shared/config/navigation";
 
@@ -18,59 +15,35 @@ export function AdminSidebar({
   name: string;
 }) {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
   const visibleNavigation = adminNavigation.filter((item) =>
     item.allowedRoles.includes(role),
   );
 
   return (
-    <aside className={`admin-sidebar ${collapsed ? "is-collapsed" : ""}`}>
-      <div className="paper-panel ornament-ring min-h-full rounded-[34px] p-5 lg:p-6">
-        <div className="admin-sidebar-toggle mb-4 flex items-center justify-between gap-3">
-          <button
-            type="button"
-            onClick={() => setCollapsed((value) => !value)}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-[18px] border border-[rgba(212,175,55,0.14)] bg-[rgba(255,255,255,0.03)] px-4 text-[var(--brand-deep)] transition hover:border-[rgba(212,175,55,0.28)] hover:bg-[rgba(212,175,55,0.08)]"
-            aria-label={collapsed ? "Tampilkan sidebar" : "Sembunyikan sidebar"}
-            title={collapsed ? "Tampilkan sidebar" : "Sembunyikan sidebar"}
-          >
-            {collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
-            <span className="admin-sidebar-toggle-label text-sm font-medium">
-              {collapsed ? "Tampilkan menu" : "Sembunyikan menu"}
-            </span>
-          </button>
-        </div>
-
-        <div className="admin-sidebar-brand overflow-hidden rounded-[28px] border border-[rgba(212,175,55,0.14)] bg-[linear-gradient(180deg,rgba(18,18,18,0.96),rgba(8,8,8,0.96))] p-5">
-          <div className="flex items-center gap-3">
-            <div className="overflow-hidden rounded-[22px] border border-[var(--line)] bg-[#050505] shadow-[0_16px_34px_rgba(0,0,0,0.32)]">
+    <aside className="admin-sidebar">
+      <div className="paper-panel rounded-[24px] p-4 lg:p-5">
+        <div className="admin-topnav-shell">
+          <div className="admin-topnav-brand">
+            <div className="overflow-hidden rounded-[16px] border border-[rgba(184,139,84,0.16)] bg-[linear-gradient(180deg,#3f3124,#2c2118)] shadow-[0_12px_28px_rgba(0,0,0,0.12)]">
               <Image
                 src="/brand/kamadeva-mark.png"
                 alt="Kamadeva WO"
-                width={56}
-                height={56}
+                width={52}
+                height={52}
                 className="h-12 w-12 object-cover"
               />
             </div>
-            <div className="admin-sidebar-copy">
+            <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--muted)]">
                 Kamadeva WO
               </p>
-              <h1 className="section-title mt-1 text-[2.1rem] font-semibold leading-none text-[var(--brand-deep)]">
+              <h1 className="mt-1 font-display text-[1.8rem] font-semibold leading-none text-[var(--brand-deep)]">
                 Control Hub
               </h1>
             </div>
           </div>
-          <div className="admin-sidebar-copy mt-5 rounded-[22px] border border-[rgba(212,175,55,0.12)] bg-[rgba(255,255,255,0.03)] p-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">
-              Login aktif
-            </p>
-            <p className="mt-2 text-sm font-semibold text-[var(--foreground)]">{name}</p>
-            <p className="mt-1 text-sm text-[var(--muted)]">{role}</p>
-          </div>
-        </div>
 
-        <nav className="mt-6 space-y-2.5">
+          <nav className="admin-topnav-links">
           {visibleNavigation.map((item) => {
             const active =
               item.href === "/admin"
@@ -82,26 +55,37 @@ export function AdminSidebar({
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 rounded-[22px] border px-4 py-3.5 text-sm transition-all duration-300 ease-out ${
+                className={`admin-topnav-link ${
                   active
-                    ? "border-[rgba(212,175,55,0.22)] bg-[rgba(212,175,55,0.94)] text-[#0b0b0b] shadow-[0_18px_36px_rgba(212,175,55,0.18)]"
-                    : "border-transparent bg-transparent text-[var(--muted)] hover:border-[rgba(212,175,55,0.14)] hover:bg-[rgba(255,255,255,0.03)] hover:text-[var(--brand-deep)]"
+                    ? "border-[rgba(209,163,101,0.34)] bg-[linear-gradient(135deg,#d8ae72,#bf8f51)] text-white shadow-[0_16px_30px_rgba(184,139,84,0.16)]"
+                    : "border-[rgba(184,139,84,0.1)] bg-[rgba(255,255,255,0.64)] text-[var(--brand-deep)] hover:border-[rgba(184,139,84,0.18)] hover:bg-[rgba(255,255,255,0.88)]"
                 }`}
               >
                 <span
-                  className={`inline-flex h-10 w-10 items-center justify-center rounded-[16px] border ${
+                  className={`inline-flex h-9 w-9 items-center justify-center rounded-[12px] border ${
                     active
-                      ? "border-black/10 bg-black/10"
-                      : "border-[rgba(212,175,55,0.14)] bg-[rgba(255,255,255,0.03)]"
+                      ? "border-white/16 bg-[rgba(255,255,255,0.16)]"
+                      : "border-[rgba(184,139,84,0.14)] bg-[rgba(255,251,246,0.82)]"
                   }`}
                 >
                   <Icon size={18} />
                 </span>
-                <span className="admin-sidebar-label font-medium">{item.label}</span>
+                <span className="font-medium whitespace-nowrap">{item.label}</span>
               </Link>
             );
           })}
-        </nav>
+          </nav>
+
+          <div className="admin-topnav-user">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">
+              Login aktif
+            </p>
+            <p className="mt-1 text-sm font-semibold text-[var(--brand-deep)]">{name}</p>
+            <p className="text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
+              {role}
+            </p>
+          </div>
+        </div>
       </div>
     </aside>
   );

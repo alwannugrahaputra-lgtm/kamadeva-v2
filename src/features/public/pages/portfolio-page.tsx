@@ -1,14 +1,19 @@
 // Penjelasan file: halaman publik untuk website Kamadeva.
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { getPublicPortfolioItems } from "@/server/services/public-content";
+import { PublicHeader } from "@/features/public/components/site-shell";
+import { getPublicPortfolioItems, getPublicSiteSetting } from "@/server/services/public-content";
 import { formatDate } from "@/shared/lib/format";
 
 export default async function PortfolioPage() {
-  const items = await getPublicPortfolioItems();
+  const [site, items] = await Promise.all([
+    getPublicSiteSetting(),
+    getPublicPortfolioItems(),
+  ]);
 
   return (
     <section className="container-shell public-page-shell">
+      <PublicHeader whatsappNumber={site?.whatsappNumber ?? "6281234567890"} />
       <Badge tone="brand">Portfolio</Badge>
       <h1 className="section-title mt-5 max-w-4xl text-6xl font-semibold text-[var(--brand-deep)]">
         Koleksi karya dan momen pilihan Kamadeva

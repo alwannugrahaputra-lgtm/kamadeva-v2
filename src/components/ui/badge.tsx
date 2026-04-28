@@ -9,12 +9,12 @@ export function Badge({
   tone?: "neutral" | "success" | "warning" | "danger" | "brand";
 }) {
   const tones = {
-    neutral: "bg-[rgba(255,255,255,0.04)] text-[var(--muted)] border-[var(--line)]",
-    success: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    warning: "bg-amber-50 text-amber-700 border-amber-200",
-    danger: "bg-rose-50 text-rose-700 border-rose-200",
+    neutral: "bg-[rgba(184,139,84,0.08)] text-[var(--muted)] border-[rgba(184,139,84,0.14)]",
+    success: "bg-[#eef7ee] text-[#5f8b60] border-[#d4e8d5]",
+    warning: "bg-[#fff2df] text-[#af7a38] border-[#f0d6b0]",
+    danger: "bg-[#fde8e4] text-[#c86556] border-[#f6cbc3]",
     brand:
-      "bg-[rgba(212,175,55,0.09)] text-[var(--accent)] border-[rgba(212,175,55,0.22)] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]",
+      "bg-[rgba(184,139,84,0.09)] text-[var(--brand)] border-[rgba(184,139,84,0.18)] shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]",
   };
 
   return (

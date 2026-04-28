@@ -40,18 +40,20 @@ export function LeadForm({ compact = false }: LeadFormProps) {
     <form
       id="lead-form"
       action={handleSubmit}
-      className="paper-panel ornament-ring rounded-[32px] p-6 lg:p-7"
+      className={`paper-panel ${compact ? "" : "ornament-ring"} rounded-[32px] p-6 lg:p-7`}
     >
-      <div className="mb-5">
-        <p className="eyebrow">Konsultasi Awal</p>
-        <h3 className="mt-4 section-title text-4xl font-semibold text-[var(--brand-deep)]">
-          Ceritakan rencana pernikahan Anda
-        </h3>
-        <p className="section-copy mt-3 text-sm">
-          Isi kebutuhan dasar acara Anda, lalu tim Kamadeva akan menghubungi untuk
-          konsultasi lanjutan.
-        </p>
-      </div>
+      {compact ? null : (
+        <div className="mb-5">
+          <p className="eyebrow">Konsultasi Awal</p>
+          <h3 className="mt-4 section-title text-4xl font-semibold text-[var(--brand-deep)]">
+            Ceritakan rencana pernikahan Anda
+          </h3>
+          <p className="section-copy mt-3 text-sm">
+            Isi kebutuhan dasar acara Anda, lalu tim Kamadeva akan menghubungi
+            untuk konsultasi lanjutan.
+          </p>
+        </div>
+      )}
       <div className={compact ? "form-grid" : "form-grid"}>
         <input name="name" placeholder="Nama lengkap" className="input-base" required />
         <input name="whatsapp" placeholder="Nomor WhatsApp" className="input-base" required />
@@ -77,7 +79,7 @@ export function LeadForm({ compact = false }: LeadFormProps) {
           Tim kami akan menghubungi Anda secepatnya.
         </p>
         <Button type="submit" disabled={loading}>
-          {loading ? "Mengirim..." : "Kirim Konsultasi"}
+          {loading ? "Mengirim..." : "Kirim Konsultasi Gratis"}
         </Button>
       </div>
       {message ? <p className="mt-4 text-sm text-[var(--accent)]">{message}</p> : null}

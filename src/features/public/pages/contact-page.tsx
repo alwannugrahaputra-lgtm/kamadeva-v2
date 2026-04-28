@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { LeadForm } from "@/features/public/components/lead-form";
+import { PublicHeader } from "@/features/public/components/site-shell";
 import { getPublicSiteSetting } from "@/server/services/public-content";
 import {
   normalizeSocialHandle,
@@ -20,6 +21,7 @@ export default async function KontakPage() {
 
   return (
     <section className="container-shell public-page-shell">
+      <PublicHeader whatsappNumber={site?.whatsappNumber ?? "6281234567890"} />
       <Badge tone="brand">Kontak & CTA</Badge>
       <h1 className="section-title mt-5 max-w-4xl text-6xl font-semibold text-[var(--brand-deep)]">
         Hubungi tim Kamadeva
