@@ -1364,10 +1364,12 @@ select.input-base option {
   }
 
   .landing-nav {
+    position: static;
+    left: auto;
+    transform: none;
     flex-direction: column;
     align-items: stretch;
-    width: min(100vw - 24px, 1240px);
-    top: 12px;
+    width: 100%;
     padding: 12px;
     border-radius: 26px;
     background: rgba(255, 251, 246, 0.86);
@@ -1432,17 +1434,16 @@ select.input-base option {
   }
 
   .public-page-shell {
-    padding-block: 152px 44px;
+    padding-block: 34px 44px;
   }
 
   .landing-shell {
-    gap: 40px;
+    gap: 18px;
     padding-bottom: 40px;
   }
 
   .landing-nav {
-    top: 10px;
-    width: min(100vw - 16px, 1240px);
+    width: 100%;
     gap: 12px;
     padding: 10px;
     border-radius: 22px;
@@ -1479,7 +1480,7 @@ select.input-base option {
 
   .landing-hero-grid {
     min-height: 560px;
-    padding-top: 188px;
+    padding-top: 40px;
   }
 
   .landing-hero-copy {
